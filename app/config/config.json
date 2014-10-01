@@ -1,0 +1,218 @@
+{
+	"questionList":[
+		{
+			"text" : "What is 1 + 1?",
+			"type" : "MCQ",
+			"correctOptionID": 2,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "3"
+				},
+				{
+					"id": 2,
+					"text": "2"
+				},
+				{
+					"id": 3,
+					"text": "0"
+				},
+				{
+					"id": 4,
+					"text": "1"
+				}
+			] 
+		},
+		{
+			"text" : "What is 2 + 2?",
+			"type" : "MCQ",
+			"imageURL": "/media/images/choice2.jpg",
+			"imageHeight": "100px",
+			"imageWidth": "170px",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "4"
+				},
+				{
+					"id": 2,
+					"text": "6"
+				},
+				{
+					"id": 3,
+					"text": "3"
+				},
+				{
+					"id": 4,
+					"text": "2"
+				}
+			] 
+		},
+		{
+			"text" : "C programs are converted into machine language with the help of?",
+			"type" : "MCQ",
+			"audioURL": "/media/audio/choice.mp3",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "An Editor"
+				},
+				{
+					"id": 2,
+					"text": "A compiler"
+				},
+				{
+					"id": 3,
+					"text": "An operating system"
+				},
+				{
+					"id": 4,
+					"text": "None of these."
+				}
+			] 
+		},
+		{
+			"text" : "For 16-bit compiler allowable range for integer constants is ________?",
+			"type" : "MCQ",
+			"imageClass": "MCQ3",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "-3.4e38 to 3.4e38"
+				},
+				{
+					"id": 2,
+					"text": "-32767 to 32768"
+				},
+				{
+					"id": 3,
+					"text": "-32768 to 32767"
+				},
+				{
+					"id": 4,
+					"text": "-32668 to 32667"
+				},
+				{
+					"id": 5,
+					"text": "-32666 to 32665"
+				}
+			] 
+		},
+		{
+			"text" : "C Language developed at _________?",
+			"type" : "MCQ",
+			"videoURL": "/media/video/choice.mp4",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "AT & T's Bell Laboratories of USA in 1972"
+				},
+				{
+					"id": 2,
+					"text": "AT & T's Bell Laboratories of USA in 1970"
+				},
+				{
+					"id": 3,
+					"text": "Sun Microsystems in 1973"
+				},
+				{
+					"id": 4,
+					"text": "Cambridge University in 1972"
+				}
+			] 
+		},
+		{
+			"text" : "Which of the following elements are used to form water?",
+			"type" : "MSQ",
+			"correctOption": { "1":true , "4":true},
+			"selectedOption": {},
+			"options" : [
+				{
+					"id": 1,
+					"text": "Hydrogen"
+				},
+				{
+					"id": 2,
+					"text": "Helium"
+				},
+				{
+					"id": 3,
+					"text": "Carbon"
+				},
+				{
+					"id": 4,
+					"text": "Oxygen"
+				},
+				{
+					"id": 5,
+					"text": "Nitrogen"
+				},
+				{
+					"id": 6,
+					"text": "Chlorine"
+				}
+			] 
+		},
+		{
+			"text" : "Which one of the following is not a valid identifier?",
+			"type" : "MCQ",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "_examveda"
+				},
+				{
+					"id": 2,
+					"text": "exam_veda"
+				},
+				{
+					"id": 3,
+					"text": "1examveda"
+				},
+				{
+					"id": 4,
+					"text": "examveda1"
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "MCQ",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		}
+	]
+}

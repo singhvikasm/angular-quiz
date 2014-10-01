@@ -1,0 +1,27 @@
+body {
+	margin: 0 0;
+}
+
+.navigationButton {
+	min-width: 80px;
+}
+
+.prevButton {
+	float: left;
+}
+
+.nextButton {
+	float: right;
+}
+
+.questionHolder + .navigator, .questionHolder {
+	margin: auto;
+	max-width: 500px;
+	min-width: 300px;
+}
+
+.questionHolder {
+	margin-top: 200px;
+}
+
+.MCQ3 { background-image: url('/media/images/choice2.jpg'); height: 100px; width: 170px }
