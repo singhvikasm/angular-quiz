@@ -213,6 +213,230 @@
 					"text": "Program do no return a value."
 				}
 			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "ESS",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "FIMB",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "FU",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "MAT",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "MCMS",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "SA",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "TF",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
+			"type" : "MCSS",
+			"correctOptionID": 1,
+			"selectedOptionID": null,
+			"options" : [
+				{
+					"id": 1,
+					"text": "1"
+				},
+				{
+					"id": 2,
+					"text": "0"
+				},
+				{
+					"id": 3,
+					"text": "2"
+				},
+				{
+					"id": 4,
+					"text": "-1"
+				},
+				{
+					"id": 5,
+					"text": "Program do no return a value."
+				}
+			] 
 		}
 	]
 }
