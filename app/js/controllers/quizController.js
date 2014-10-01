@@ -28,6 +28,15 @@ ngQuizApp.controller("ngQuizController", function($scope, $http){
 			$scope.config['questionList'][$scope.questionInProgress]['selectedOption'][optionID] = true;
 	};
 	
+	$scope.getURL = function getURL(type) {
+		if(type) {
+			return 'views/'+ type + '.html';
+		} else {
+			return '';
+		}
+		console.log(type);
+	};
+	
 	$scope.submit = function submit() {
 		alert('');
 	};
