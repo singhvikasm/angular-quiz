@@ -2,7 +2,7 @@
 	"questionList":[
 		{
 			"text" : "What is 1 + 1?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"correctOptionID": 2,
 			"selectedOptionID": null,
 			"options" : [
@@ -26,7 +26,7 @@
 		},
 		{
 			"text" : "What is 2 + 2?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"imageURL": "/media/images/choice2.jpg",
 			"imageHeight": "100px",
 			"imageWidth": "170px",
@@ -53,7 +53,7 @@
 		},
 		{
 			"text" : "C programs are converted into machine language with the help of?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"audioURL": "/media/audio/choice.mp3",
 			"correctOptionID": 1,
 			"selectedOptionID": null,
@@ -78,7 +78,7 @@
 		},
 		{
 			"text" : "For 16-bit compiler allowable range for integer constants is ________?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"imageClass": "MCQ3",
 			"correctOptionID": 1,
 			"selectedOptionID": null,
@@ -107,7 +107,7 @@
 		},
 		{
 			"text" : "C Language developed at _________?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"videoURL": "/media/video/choice.mp4",
 			"correctOptionID": 1,
 			"selectedOptionID": null,
@@ -132,7 +132,7 @@
 		},
 		{
 			"text" : "Which of the following elements are used to form water?",
-			"type" : "MSQ",
+			"type" : "msq",
 			"correctOption": { "1":true , "4":true},
 			"selectedOption": {},
 			"options" : [
@@ -164,7 +164,7 @@
 		},
 		{
 			"text" : "Which one of the following is not a valid identifier?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"correctOptionID": 1,
 			"selectedOptionID": null,
 			"options" : [
@@ -188,7 +188,7 @@
 		},
 		{
 			"text" : "What is the correct value to return to the operating system upon the successful completion of a program?",
-			"type" : "MCQ",
+			"type" : "mcq",
 			"correctOptionID": 1,
 			"selectedOptionID": null,
 			"options" : [
@@ -435,6 +435,74 @@
 				{
 					"id": 5,
 					"text": "Program do no return a value."
+				}
+			] 
+		},
+		{
+			"text" : "Text Comes here - Multiple Choice Question single select",
+			"type" : "MCQ",			
+			"imageURL": "/media/images/choice2.jpg",
+			"imageHeight": "100px",
+			"imageWidth": "170px",
+			"videoURL": "/media/video/choice.mp4",
+			"videoHeight": "100px",
+			"videoWidth": "170px",			
+			"audioURL": "/media/audio/choice.mp3",
+			"selectedOptionID": null,			
+			"options" : [
+				{
+					"id": 1,
+					"text": "3"
+				},
+				{
+					"id": 2,
+					"text": "2"
+				},
+				{
+					"id": 3,
+					"text": "0"
+				},
+				{
+					"id": 4,
+					"text": "1"
+				}
+			] 
+		},
+		{
+			"text" : "Text Comes here - Multiple Select Question",
+			"type" : "MSQ",			
+			"imageURL": "/media/images/choice2.jpg",
+			"imageHeight": "100px",
+			"imageWidth": "170px",
+			"videoURL": "/media/video/choice.mp4",
+			"videoHeight": "100px",
+			"videoWidth": "170px",			
+			"audioURL": "/media/audio/choice.mp3",			
+			"selectedOption": {},
+			"options" : [
+				{
+					"id": 1,
+					"text": "Hydrogen"
+				},
+				{
+					"id": 2,
+					"text": "Helium"
+				},
+				{
+					"id": 3,
+					"text": "Carbon"
+				},
+				{
+					"id": 4,
+					"text": "Oxygen"
+				},
+				{
+					"id": 5,
+					"text": "Nitrogen"
+				},
+				{
+					"id": 6,
+					"text": "Chlorine"
 				}
 			] 
 		}

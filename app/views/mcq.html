@@ -1,30 +1,28 @@
-
+<div class="questionHolder">
+		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['text']">{{ config['questionList'][questionInProgress]['text'] }}</div>
+		<div class="questionImage" data-ng-if="config['questionList'][questionInProgress]['imageURL']" 
+			style="background-image: url({{config['questionList'][questionInProgress]['imageURL']}}); 
+			height: {{config['questionList'][questionInProgress]['imageHeight']}};
+			width: {{config['questionList'][questionInProgress]['imageWidth']}}"
+			></div>
+		<div class="questionText {{config['questionList'][questionInProgress]['imageClass']}}" data-ng-if="config['questionList'][questionInProgress]['imageClass']"></div>
+		<div class="questionAudio" data-ng-if="config['questionList'][questionInProgress]['audioURL']">
+			<audio controls>
+				<source data-ng-src="{{config['questionList'][questionInProgress]['audioURL']}}" type="audio/mpeg">
+				Your browser does not support the audio element.
+			</audio>
+		</div>
+		<div class="questionVideo" data-ng-if="config['questionList'][questionInProgress]['videoURL']">
+			<video controls>
+				<source data-ng-src="{{config['questionList'][questionInProgress]['videoURL']}}" type="audio/mp4">
+				Your browser does not support the video element.
+			</video>
+		</div>
 		
-			<div class="questionHolder">
-					<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['text']">{{ config['questionList'][questionInProgress]['text'] }}</div>
-					<div class="questionImage" data-ng-if="config['questionList'][questionInProgress]['imageURL']" 
-						style="background-image: url({{config['questionList'][questionInProgress]['imageURL']}}); 
-						height: {{config['questionList'][questionInProgress]['imageHeight']}};
-						width: {{config['questionList'][questionInProgress]['imageWidth']}}"
-						></div>
-					<div class="questionText {{config['questionList'][questionInProgress]['imageClass']}}" data-ng-if="config['questionList'][questionInProgress]['imageClass']"></div>
-					<div class="questionAudio" data-ng-if="config['questionList'][questionInProgress]['audioURL']">
-						<audio controls>
-							<source data-ng-src="{{config['questionList'][questionInProgress]['audioURL']}}" type="audio/mpeg">
-							Your browser does not support the audio element.
-						</audio>
-					</div>
-					<div class="questionVideo" data-ng-if="config['questionList'][questionInProgress]['videoURL']">
-						<video controls>
-							<source data-ng-src="{{config['questionList'][questionInProgress]['videoURL']}}" type="audio/mp4">
-							Your browser does not support the video element.
-						</video>
-					</div>
-					
-					<div class="optionsHolder" data-ng-repeat=" option in  config['questionList'][questionInProgress]['options']"> 
-						<div data-ng-switch on="option.id === config['questionList'][questionInProgress]['selectedOptionID']"> 
-							<label data-ng-switch-when="true" data-ng-click="ansSelect()"> <input type="radio" name="userAnswer" option-id="{{option.id}}" checked="checked"> {{ option.text }} </label>
-							<label data-ng-switch-default data-ng-click="ansSelect(option.id)"> <input type="radio" name="userAnswer" option-id="{{option.id}}"> {{ option.text }} </label> 
-						</div>
-					</div>
+		<div class="optionsHolder" data-ng-repeat=" option in  config['questionList'][questionInProgress]['options']"> 
+			<div data-ng-switch on="option.id === config['questionList'][questionInProgress]['selectedOptionID']"> 
+				<label data-ng-switch-when="true" data-ng-click="ansSelect()"> <input type="radio" name="userAnswer" option-id="{{option.id}}" checked="checked"> {{ option.text }} </label>
+				<label data-ng-switch-default data-ng-click="ansSelect(option.id)"> <input type="radio" name="userAnswer" option-id="{{option.id}}"> {{ option.text }} </label> 
 			</div>
+		</div>
+</div>
