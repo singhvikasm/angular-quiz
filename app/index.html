@@ -5,12 +5,13 @@
 		<link rel="stylesheet" type="text/css" href="css/quiz.css" />
 		<script type="text/javascript" src="js/vendors/angular.min.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>	
-		<script type="text/javascript" src="js/controllers/quizController.js"></script>	
+		<script type="text/javascript" src="js/controllers/quizController.js"></script>
+		<script type="text/javascript" src="js/services/directives.js"></script>
 	</head>
 	<body>
 		<div class="container" data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
 			
-			<div data-ng-include src="getURL(config['questionList'][questionInProgress]['type'])"></div>
+			<div data-ng-include src="getURL(config['questionList'][questionInProgress]['Qtype'])"></div>
 			
 			<div class="navigator">
 				<div class="prevButton navigationButton" data-ng-click="prevQuestion()" data-ng-show="config['questionList'][questionInProgress-1]">prev</div>

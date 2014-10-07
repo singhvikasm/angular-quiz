@@ -1,0 +1,14 @@
+<div class="questionHolder">
+		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']">{{ config['questionList'][questionInProgress]['Qtext'] }}</div>
+	
+		<form id="upload" method="POST" enctype="multipart/form-data" data-ng-submit="validateUpload($scope)">
+			<div>
+				<label for="fileselect">Files to upload:</label>
+				<input type="file" id="fileselect" fileread="uploadForm.ext"/>
+			</div>
+			
+			<div id="submitbutton">
+				<button type="submit">Upload Files</button>
+			</div>
+		</form>
+</div>
