@@ -1,5 +1,5 @@
 <div class="questionHolder">
-		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']">{{ config['questionList'][questionInProgress]['Qtext'] }}</div>
+		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']" data-ng-bind-html="trustedHtmlQText"></div>
 				
 		<textarea ></textarea>
 </div>
