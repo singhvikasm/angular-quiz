@@ -25,27 +25,27 @@
 			"Qtext" : "MAT text",
 			"Qtype" : "MAT",
 			"labels" : [
-				{"Qtext":"Orthello",
+				{"Qtext":"Orthel<img src='/media/images/choice2.jpg'/>lo",
 				"response":""},
-				{"Qtext":"Hamlet",
+				{"Qtext":"Ham<img src='/media/images/choice2.jpg'/>let",
 				"response":""}
 			],
 			"options":["tom","dick","harry"]
 		},
 		{
-			"Qtext" : "MCMS text",
+			"Qtext" : "MCMS <img src='/media/images/choice2.jpg'/>text",
 			"Qtype" : "MCMS",
 			"responseEntered" : {},
-			"options":["tom","dick","harry","can contain HTML"]
+			"options":["tom","dick","harry","can cont<img src='/media/images/choice2.jpg'/>ain HTML"]
 		},		
 		{
-			"Qtext" : "MCSS text",
+			"Qtext" : "MCSS te<img src='/media/images/choice2.jpg'/>xt",
 			"Qtype" : "MCSS",			
 			"responseEntered" : {},
-			"options":["tom","dick","harry","can contain HTML"]
+			"options":["tom","dick","harry","can co<img src='/media/images/choice2.jpg'/>ntain HTML"]
 		},		
 		{
-			"Qtext" : "TF text",
+			"Qtext" : "TF t<img src='/media/images/choice2.jpg'/>ext",
 			"Qtype" : "TF",	
 			"responseEntered" : {}
 		}

@@ -32,6 +32,10 @@ ngQuizApp.controller("ngQuizController", function($scope, $http, $sce){
 		//if($scope.config['questionList'][$scope.questionInProgress]['options']){$scope.trustedHtmloptions = $sce.trustAsHtml($scope.config['questionList'][$scope.questionInProgress]['options'])}
 	} 
 	
+	$scope.getTrustedHtml = function getTrustedHtml(textToBeTrusted){
+		return $sce.trustAsHtml(textToBeTrusted);
+	}
+	
 	$scope.ansSelect = function ansSelect(option, isRadio) {
 		
 		if(isRadio) {

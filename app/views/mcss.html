@@ -3,7 +3,7 @@
 				
 		<div class="optionsHolder"> 
 		<div data-ng-repeat=" option in config['questionList'][questionInProgress]['options']"> 
-			<label data-ng-click="ansSelect(option, true)"> <input type="radio" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered'][option]"> {{ option }} </label>
+			<label data-ng-click="ansSelect(option, true)"> <input type="radio" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered'][option]"><div data-ng-bind-html="getTrustedHtml(option)"></div></label>
 		</div>
 	</div>
 </div>

@@ -2,7 +2,7 @@
 		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']" data-ng-bind-html="trustedHtmlQText"></div>
 		
 		<div data-ng-repeat="label in config['questionList'][questionInProgress]['labels']">
-			<div>{{label.Qtext}}</div>
+			<div data-ng-bind-html='getTrustedHtml(label.Qtext)'></div>
 			<select data-ng-model="label['response']">
 				<option data-ng-repeat="option in config['questionList'][questionInProgress]['options']">{{ option }}</option>
 			</select>
