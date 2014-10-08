@@ -7,7 +7,6 @@ ngQuizApp.controller("ngQuizController", function($scope, $http, $sce){
 		'method': 'GET',
 		'url' : 'config/AllQuestionTypes.json'
 	})
-	//.success(function(data) { $scope.config= data; window.config= $scope.config; })
 	.success(function(data) { 
 			$scope.config= data; 
 			$scope.unsafeHtml();
@@ -16,7 +15,6 @@ ngQuizApp.controller("ngQuizController", function($scope, $http, $sce){
 	.error(function(data) { console.error('Config Load Error'); });
 		
 	$scope.nextQuestion = function nextQuestion() {
-		//$scope.$apply(function(){  });
 		$scope.questionInProgress++;
 		$scope.unsafeHtml();		
 	};
@@ -28,8 +26,6 @@ ngQuizApp.controller("ngQuizController", function($scope, $http, $sce){
 	
 	$scope.unsafeHtml = function unsafeHtml(){
 		if($scope.config['questionList'][$scope.questionInProgress]['Qtext']){$scope.trustedHtmlQText = $sce.trustAsHtml($scope.config['questionList'][$scope.questionInProgress]['Qtext'])}		
-		//if($scope.config['questionList'][$scope.questionInProgress]['labels']){$scope.trustedHtmllabels = $sce.trustAsHtml($scope.config['questionList'][$scope.questionInProgress]['labels'])}
-		//if($scope.config['questionList'][$scope.questionInProgress]['options']){$scope.trustedHtmloptions = $sce.trustAsHtml($scope.config['questionList'][$scope.questionInProgress]['options'])}
 	} 
 	
 	$scope.getTrustedHtml = function getTrustedHtml(textToBeTrusted){
