@@ -2,22 +2,22 @@
 	"backButton": true,
 	"questionList":[
 		{
-			"Qtext" : "Text Comes here - an Essay Question",
+			"Qtext" : "Text Comes here - <audio controls><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio> an Essay Question",
 			"Qtype" : "ESS",
 			"responseEntered": ""
 		},
 		{
-			"Qtext" : "Text Comes here - short answer Question",
+			"Qtext" : "Text Comes here - short answer <img src='/media/images/choice2.jpg'/>Question",
 			"Qtype" : "SA",
 			"responseEntered": ""
 		},
 		{
-			"Qtext" : "Fill in the blanks - multiple blanks blanks should be mentioned as [answer1] in text which will be [answer2] replaced by text boxes on client size",
+			"Qtext" : "Fill in the blanks - multiple blanks blanks<img src='/media/images/choice2.jpg'/> should be mentioned as [answer1] in text which will be [answer2] replaced by text boxes on client size",
 			"Qtype" : "FIMB",		
 			"responseEntered" : []
 		},
 		{
-			"Qtext" : "Text Comes here - file upload Question JSON TBD",
+			"Qtext" : "Text Comes here - file upload <audio controls><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio>Question JSON TBD",
 			"Qtype" : "FU",
 			"acceptableExtensions" : []
 		},
