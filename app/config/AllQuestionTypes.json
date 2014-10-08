@@ -47,7 +47,7 @@
 		{
 			"Qtext" : "TF text",
 			"Qtype" : "TF",	
-			"responseEntered" : []
+			"responseEntered" : {}
 		}
 	]
 }

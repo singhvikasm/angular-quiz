@@ -2,7 +2,7 @@
 		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']">{{ config['questionList'][questionInProgress]['Qtext'] }}</div>
 				
 		<div class="optionsHolder">
-			<label data-ng-click="ansSelect(option)"> <input type="radio" name="userAnswer" > TRUE </label>
-			<label data-ng-click="ansSelect(option)"> <input type="radio" name="userAnswer" > FALSE </label>
+			<label> <input type="radio" data-ng-click="ansSelect('true',true)" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered']['true']"> TRUE </label>
+			<label> <input type="radio" data-ng-click="ansSelect('false',true)" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered']['false']"> FALSE </label>
 		</div>
 </div>
