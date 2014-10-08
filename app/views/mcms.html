@@ -1,10 +1,10 @@
 <div class="questionHolder">
 		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']">{{ config['questionList'][questionInProgress]['Qtext'] }}</div>
 		
-		<div class="optionsHolder" data-ng-repeat=" option in  config['questionList'][questionInProgress]['options']"> 
-			<div data-ng-switch on="option.id === config['questionList'][questionInProgress]['selectedOptionID']"> 
-				<label data-ng-switch-when="true" data-ng-click="ansSelect()"> <input type="checkbox" name="userAnswer" option-id="{{option.id}}" checked="checked"> {{ option }} </label>
-				<label data-ng-switch-default data-ng-click="ansSelect(option.id)"> <input type="checkbox" name="userAnswer" option-id="{{option.id}}"> {{ option }} </label> 
+		<div class="optionsHolder"> 
+			<div data-ng-switch on="config['questionList'][questionInProgress]['responseEntered'][option]" data-ng-repeat=" option in config['questionList'][questionInProgress]['options']"> 
+				<label data-ng-switch-when="true" data-ng-click="ansSelect(option)"> <input type="checkbox" name="userAnswer" checked="checked"> {{ option }} </label>
+				<label data-ng-switch-default data-ng-click="ansSelect(option)"> <input type="checkbox" name="userAnswer"> {{ option }} </label> 
 			</div>
 		</div>
 </div>

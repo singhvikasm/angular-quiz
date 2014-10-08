@@ -20,13 +20,20 @@ ngQuizApp.controller("ngQuizController", function($scope, $http){
 		$scope.questionInProgress--;
 	};
 	
-	$scope.ansSelect = function ansSelect(optionID) {
-		var selectedOptionID = $scope.config['questionList'][$scope.questionInProgress]['selectedOptionID'],
-			selectedChekboxes = $scope.config['questionList'][$scope.questionInProgress]['selectedOption']
-		if(selectedOptionID || selectedOptionID === null)
-			$scope.config['questionList'][$scope.questionInProgress]['selectedOptionID'] = optionID;
-		else if(selectedChekboxes)
-			$scope.config['questionList'][$scope.questionInProgress]['selectedOption'][optionID] = true;
+	$scope.ansSelect = function ansSelect(option, isRadio) {
+		
+		if(isRadio) {
+			$scope.config['questionList'][$scope.questionInProgress]['responseEntered'] = {};
+			$scope.config['questionList'][$scope.questionInProgress]['responseEntered'][option] = true;
+			return;
+		} 
+		
+		if($scope.config['questionList'][$scope.questionInProgress]['responseEntered'][option]){
+			delete $scope.config['questionList'][$scope.questionInProgress]['responseEntered'][option];
+		} 
+		else {
+			$scope.config['questionList'][$scope.questionInProgress]['responseEntered'][option] = true;
+		}
 	};
 	
 	$scope.getURL = function getURL(type) {

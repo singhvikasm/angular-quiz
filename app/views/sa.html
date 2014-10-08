@@ -1,5 +1,4 @@
 <div class="questionHolder">
 		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']">{{ config['questionList'][questionInProgress]['Qtext'] }}</div>
-				
-		<input type="text" />
+		<input type="text" data-ng-model="config['questionList'][questionInProgress]['responseEntered']"/>
 </div>
