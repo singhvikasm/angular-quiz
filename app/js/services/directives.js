@@ -22,7 +22,8 @@ ngQuizApp.directive("replacefimb", [function () {
     			scope.text = scope.text.replace(/\[answer[1-9]\]/,'<input type=text id="' +arr[count].substring(1,arr[count].length-1) +'"/>');
     			count++;
     		}
+    		element.html(scope.text);
     	},
-        template: "{{text}}"
+        template: ""
     }
 }]);
