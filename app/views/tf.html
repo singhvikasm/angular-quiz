@@ -1,8 +1,8 @@
 <div class="questionHolder">
 		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']" data-ng-bind-html="trustedHtmlQText"></div>
 				
-		<div class="optionsHolder"> 
-			<label data-ng-click="ansSelect(option.id)"> <input type="radio" name="userAnswer" option-id="{{option.id}}"> TRUE </label>
-			<label data-ng-click="ansSelect(option.id)"> <input type="radio" name="userAnswer" option-id="{{option.id}}"> FALSE </label>
+		<div class="optionsHolder">
+			<label> <input type="radio" data-ng-click="ansSelect('true',true)" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered']['true']"> TRUE </label>
+			<label> <input type="radio" data-ng-click="ansSelect('false',true)" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered']['false']"> FALSE </label>
 		</div>
 </div>

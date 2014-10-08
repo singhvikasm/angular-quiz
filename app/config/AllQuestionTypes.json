@@ -23,8 +23,7 @@
 		},
 		{
 			"Qtext" : "MAT text",
-			"Qtype" : "MAT",			
-			"responseEntered" : [],
+			"Qtype" : "MAT",
 			"labels" : [
 				{"Qtext":"Orthello",
 				"response":""},
@@ -35,20 +34,20 @@
 		},
 		{
 			"Qtext" : "MCMS text",
-			"Qtype" : "MCMS",			
-			"responseEntered" : [],
+			"Qtype" : "MCMS",
+			"responseEntered" : {},
 			"options":["tom","dick","harry","can contain HTML"]
 		},		
 		{
 			"Qtext" : "MCSS text",
 			"Qtype" : "MCSS",			
-			"responseEntered" : [],
+			"responseEntered" : {},
 			"options":["tom","dick","harry","can contain HTML"]
 		},		
 		{
 			"Qtext" : "TF text",
 			"Qtype" : "TF",	
-			"responseEntered" : []
+			"responseEntered" : {}
 		}
 	]
 }
