@@ -3,20 +3,23 @@
 	<head>
 		<title>Quiz Game Angular Trial</title>
 		<link rel="stylesheet" type="text/css" href="css/quiz.css" />
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css" />
 		<script type="text/javascript" src="js/vendors/angular.min.js"></script>
-		<script type="text/javascript" src="js/app.js"></script>	
+		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="js/controllers/quizController.js"></script>
 		<script type="text/javascript" src="js/services/directives.js"></script>
 	</head>
 	<body>
-		<div class="container" data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
+		<div class="container quiz-container panel panel-primary" data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
 			
-			<div data-ng-include src="getURL(config['questionList'][questionInProgress]['Qtype'])"></div>
+			<div class="panel-heading">Quiz</div>
+			<div class='panel-body' data-ng-include src="getURL(config['questionList'][questionInProgress]['Qtype'])"></div>
 			
 			<div class="navigator">
-				<div class="prevButton navigationButton" data-ng-click="prevQuestion()" data-ng-show="config['questionList'][questionInProgress-1]">prev</div>
-				<div class="nextButton navigationButton" data-ng-click="submit()" >submit</div>
-				<div class="nextButton navigationButton" data-ng-click="nextQuestion()" data-ng-show="config['questionList'][questionInProgress+1]">next</div>
+				<div class="prevButton navigationButton btn btn-primary" data-ng-click="prevQuestion()" data-ng-show="config['questionList'][questionInProgress-1]">prev</div>
+				<div class="nextButton navigationButton btn btn-primary" data-ng-click="submit()" >submit</div>
+				<div class="nextButton navigationButton btn btn-primary" data-ng-click="nextQuestion()" data-ng-show="config['questionList'][questionInProgress+1]">next</div>
 			</div>	
 		</div>
 	</body>

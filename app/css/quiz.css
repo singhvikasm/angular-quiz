@@ -2,6 +2,12 @@ body {
 	margin: 0 0;
 }
 
+.container.quiz-container {
+	margin-top: 10px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
 .navigationButton {
 	min-width: 80px;
 }
@@ -20,8 +26,5 @@ body {
 	min-width: 300px;
 }
 
-.questionHolder {
-	margin-top: 200px;
-}
 
 .MCQ3 { background-image: url('/media/images/choice2.jpg'); height: 100px; width: 170px }
