@@ -8,8 +8,9 @@ body {
 	padding-right: 0px;
 }
 
-.navigationButton {
+.navigationButton.btn {
 	min-width: 80px;
+	margin:10px;
 }
 
 .prevButton {
@@ -20,10 +21,12 @@ body {
 	float: right;
 }
 
+.questionText {
+	margin-bottom: 30px;
+}
+
 .questionHolder + .navigator, .questionHolder {
 	margin: auto;
-	max-width: 500px;
-	min-width: 300px;
 }
 
 
