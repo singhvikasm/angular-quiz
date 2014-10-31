@@ -1,0 +1,13 @@
+﻿
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+
+    <div class="optionsHolder">
+        <div data-ng-repeat="option in config['LearningObject'][pageInProgress]['Options']">
+            <input data-ng-click="ansSelect(option.Id)" type="checkbox" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered'][option.Id]" />
+            <label data-ng-click="ansSelect(option.Id)">
+                &nbsp;&nbsp;<span data-ng-bind-html="getTrustedHtml(option.Title)"></span>
+            </label>
+        </div>
+    </div>
+</div>

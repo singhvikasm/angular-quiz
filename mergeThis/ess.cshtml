@@ -1,0 +1,8 @@
+﻿@{
+    Layout = null;
+}
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+    <textarea data-ng-model="config['LearningObject'][pageInProgress]['responseEntered']" data-ng-disabled="disableInputs"></textarea>
+	<div data-ng-if="showScoring"><br/><br/><label>Score this question:<input type="text" data-ng-model="config['LearningObject'][pageInProgress]['ManualScore']" class="scoreTextBox"/></label></div>
+</div>

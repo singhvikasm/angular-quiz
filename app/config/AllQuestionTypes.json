@@ -1,53 +1,8 @@
-{	"totalTime":20,
-	"backButton": true,
-	"questionList":[
-		{
-			"Qtext" : "Text Comes here - <audio controls><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio> an Essay Question",
-			"Qtype" : "ESS",
-			"responseEntered": ""
-		},
-		{
-			"Qtext" : "Text Comes here - short answer <img src='/media/images/choice2.jpg'/>Question",
-			"Qtype" : "SA",
-			"responseEntered": ""
-		},
-		{
-			"Qtext" : "Fill in the blanks - multiple blanks blanks<img src='/media/images/choice2.jpg'/> should be mentioned as [answer1] in text which will be [answer2] replaced by text boxes on client size",
-			"Qtype" : "FIMB",		
-			"responseEntered" : []
-		},
-		{
-			"Qtext" : "Text Comes here - file upload <audio controls><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio>Question JSON TBD",
-			"Qtype" : "FU",
-			"acceptableExtensions" : []
-		},
-		{
-			"Qtext" : "MAT text",
-			"Qtype" : "MAT",
-			"labels" : [
-				{"Qtext":"Orthel<img src='/media/images/choice2.jpg'/>lo",
-				"response":""},
-				{"Qtext":"Ham<img src='/media/images/choice2.jpg'/>let",
-				"response":""}
-			],
-			"options":["tom","dick","harry"]
-		},
-		{
-			"Qtext" : "MCMS <img src='/media/images/choice2.jpg'/>text",
-			"Qtype" : "MCMS",
-			"responseEntered" : {},
-			"options":["tom","dick","harry","can cont<img src='/media/images/choice2.jpg'/>ain HTML"]
-		},		
-		{
-			"Qtext" : "MCSS te<img src='/media/images/choice2.jpg'/>xt",
-			"Qtype" : "MCSS",			
-			"responseEntered" : {},
-			"options":["tom","dick","harry","can co<img src='/media/images/choice2.jpg'/>ntain HTML"]
-		},		
-		{
-			"Qtext" : "TF t<img src='/media/images/choice2.jpg'/>ext",
-			"Qtype" : "TF",	
-			"responseEntered" : {}
-		}
-	]
+{
+	"ResourceID": null,
+	"ResourceType": "3",
+	"LearningObject": {
+		"WebContentId": null,
+		"WebContentPath": "http://www.dummies.com/how-to/computers-software/programming/HTML.html"
+	}
 }

@@ -1,10 +1,9 @@
 
 ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
-    var EOLRootPath = "http://localhost:8081";  //updated locally
-    //var EOLRootPath = "http://dev-cdp.educate-online.local/CDPdev/";
-    //var EOLRootPath = "http://qa-cdp.educate-online.local/CDPQA/";   
+   // var EOLRootPath = "http://dev-cdp.educate-online.local/CDPdev/";
+     var EOLRootPath = "http://localhost:55257/";
     var varToReplace = /\$IMS-CC-FILEBASE\$/g
-    var varToReplace1 = /%24IMS_CC_FILEBASE%24/g
+    var varToReplaceHtml = /%24IMS_CC_FILEBASE%24/g
     var filesRootPath = "http://dev-cdp.educate-online.local/CDPParserDev/";
     //var filesRootPath = "http://qa-cdp.educate-online.local/CDPParserqa/";
 
@@ -35,184 +34,23 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 
     $scope.pageInProgress = 0;
     $scope.uploadForm = { 'ext': null };
-       
-    //role specific variables
+    
 	$scope.disableInputs = false;
 	$scope.showScoring = false;
-	$scope.isInstructor = false;		
+	$scope.isInstructor = false;	
 	var unAnsweredQuestions = ""
 
-    $scope.getAllQuestions = function (val) {
-        var assessment_id = val;
-        //$http.get(EOLRootPath + "api/EOL/" + assessment_id + '/').success(function (data, status, headers, config) {
-        $http.get("").success(function (data, status, headers, config) {//updated locally
-            //updated locally
-			/*data = {
-				"ResourceID": null,
-				"ResourceType": "3",
-				"HidePrevious": true,
-				"LearningObject": {
-					"WebContentId": null,
-					"WebContentType": 1,
-					"WebContentPath": "http://www.dummies.com/how-to/computers-software/programming/HTML.html"
-				}
-			}*/		
-
-			data = {
-				"IsAccessCodeRequired": true,
-				"IsAccessCodeCorrect": false,
-				"ResourceID": null,
-				"ResourceType": 2,
-				"MaxAttempt": 0,
-				"NoOfAttempt": 0,
-				"HidePrevious": false,
-				"IsTimed": true,
-				"TimeDuration": 99999,
-				"MaxScore": 0,
-				"LastQuestionAnswered": "812981d7-ff78-4cf8-a007-3bb83755080c",
-				"LearningObject": [{
-					"Id": "812981d7-ff78-4cf8-a007-3bb83755080c",
-					"SectionName": null,
-					"GeneralFeedback": null,
-					"CorrectAnswerFeedback": null,
-					"IncorrectAnswerFeedback": null,
-					"MaxScore": 3,
-					"MinScore": 0,					
-					"QuestionTypeID": 1,
-					"Title": "Question text 1",
-					"responseEntered": "dsfg",
-					"ManualScore": 1
-				},
-				{
-					"Id": "93b81e92-9d2e-4c3d-8e1a-52df4c0ae417",
-					"SectionName": null,
-					"GeneralFeedback": null,
-					"CorrectAnswerFeedback": null,
-					"IncorrectAnswerFeedback": null,
-					"MaxScore": 14,
-					"MinScore": 0,
-					"QuestionTypeID": 2,
-					"Title": "fimb textbox1 [answer1] textbox2 [answer2] textbox3 [answer3] end of sentence",
-					"responseEntered": {
-						"answer1": "sadf",
-						"answer2": "fgh",
-						"answer3": "asdf"
-					},
-					"ManualScore": null
-				},
-				{
-					"Id": "20290a82-13fc-43e9-88e3-8505793fc32c",
-					"SectionName": null,
-					"GeneralFeedback": null,
-					"CorrectAnswerFeedback": null,
-					"IncorrectAnswerFeedback": null,
-					"MaxScore": 10,
-					"MinScore": 0,
-					"QuestionTypeID": 1,
-					"Title": "Question text 2",
-					"responseEntered": "sdf",
-					"ManualScore": null
-				},
-				{
-					"Id": "484726f0-69a6-49c9-b408-c882e5006748",
-					"SectionName": null,
-					"GeneralFeedback": null,
-					"CorrectAnswerFeedback": null,
-					"IncorrectAnswerFeedback": null,
-					"MaxScore": 10,
-					"MinScore": 0,
-					"QuestionTypeID": 1,
-					"Title": "Question text 3",
-					"responseEntered": "asdf",
-					"ManualScore": null
-				},
-				{
-					"Id": "31d546eb-2d51-4db3-9129-27b572be637b",
-					"SectionName": null,
-					"GeneralFeedback": null,
-					"CorrectAnswerFeedback": null,
-					"IncorrectAnswerFeedback": null,
-					"MaxScore": 100,
-					"MinScore": 0,
-					"QuestionTypeID": 4,
-					"Title": "Question text 4",
-					"Options": [{
-						"Title": "Option1",
-						"MatchingOptions": [{
-							"Title":"Matching Option 1"
-						},
-						{
-							"Title":"Matching Option 2"
-						},
-						{
-							"Title":"Matching Option 3"
-						},
-						{
-							"Title":"Matching Option 4"
-						},
-						{
-							"Title":"Matching Option 5"
-						}],
-						"response": "Matching Option 1"
-					},
-					{
-						"Title": "Option2",
-						"MatchingOptions": [{
-							"Title":"Matching Option 1"
-						},
-						{
-							"Title":"Matching Option 2"
-						},
-						{
-							"Title":"Matching Option 3"
-						},
-						{
-							"Title":"Matching Option 4"
-						},
-						{
-							"Title":"Matching Option 5"
-						}],
-						"response": "asdf"
-					},
-					{
-						"Title": "Option3",
-						"MatchingOptions": [{
-							"Title":"Matching Option 1"
-						},
-						{
-							"Title":"Matching Option 2"
-						},
-						{
-							"Title":"Matching Option 3"
-						},
-						{
-							"Title":"Matching Option 4"
-						},
-						{
-							"Title":"Matching Option 5"
-						}],
-						"response": "Matching Option 1"
-					}]
-				}]
-			};
-
+    $scope.getAllQuestions = function (valActivityId, valItemId, valUserId,valStudentId) {
+        var assessment_id = valActivityId;
+        var CDP_Item_ID = valItemId;
+        var user_id = valUserId;
+        var student_ID = valStudentId;
+        $http.get(EOLRootPath + "api/EOL?id=" + assessment_id + '&cdp_item_id=' + CDP_Item_ID + '&userId=' + user_id + '&studentID=' + student_ID).success(function (data, status, headers, config) {
             console.log(data);
             $scope.config = {};
-            $scope.config = data;			
-			
-            if ($scope.config['ResourceType'] == 2) {
-            	//$scope.ifAuthentication = config['IsAccessCodeRequired'];
-				/*Below to be uncommented if need to skip to unanswered question 
-				var flagAllAnswered = true;
-				for (var i = 0; i < $scope.config['LearningObject'].length; i++) {								
-		            flagAllAnswered = $scope.ifAnswered(i,flagAllAnswered)
-		            if(!flagAllAnswered){
-		            	break;
-		            }else{
-		            	$scope.pageInProgress++;
-		            }
-		        }*/
-		       
+            $scope.config = data;
+
+			if ($scope.config['ResourceType'] == 2) {
 		       if($scope.config['IsAccessCodeRequired']){
 		       		if($scope.config['IsAccessCodeCorrect']){		       			
 		       			quizLoad();
@@ -227,14 +65,13 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
                 $scope.showSubmit = false
                 $scope.safeHtml();
             }
-                        
         }).error(function (data, status, headers, config) {
             $scope.title = 'Oops... something went wrong';
             $scope.working = false;
         });
     };
 
-    $scope.nextPage = function nextPage() {
+	$scope.nextPage = function nextPage() {
     	var enableNext = true
     	if($scope.showScoring == true){
     		enableNext = scoreValidate("next") 	
@@ -255,11 +92,10 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
         	$scope.safeHtml();
     	}
     };
-
+    
     $scope.safeHtml = function safeHtml() {
-    	    	
         if ($scope.config['ResourceType'] == 2) {
-            $scope.trustedHtmlQText = $sce.trustAsHtml(($scope.pageInProgress+1)+'. '+$scope.config['LearningObject'][$scope.pageInProgress]['Title'].replace(varToReplace, filesRootPath));         
+            $scope.trustedHtmlQText = $sce.trustAsHtml(($scope.pageInProgress+1)+'. '+$scope.config['LearningObject'][$scope.pageInProgress]['Title'].replace(varToReplace, filesRootPath));
         } else if ($scope.config['ResourceType'] == 4) {
             $scope.trustedHtmlQText = $sce.trustAsHtml("<a href='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebLinkURL'].replace(varToReplace, filesRootPath)) + "'>" + $scope.config['LearningObject']['WebLinkTitle'].replace(varToReplace, filesRootPath) + "</a>");
         } else if ($scope.config['ResourceType'] == 3) {
@@ -272,11 +108,12 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
                     var replacedHtml;
 
                     if ($scope.config['LearningObject']['WebContentType'] == 1) {
+
                         $http.get(EOLRootPath + "api/eol/geturlcontent?url=" + $scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)).success(function (responseHtml) {
 
-							$scope.config['LearningObject']['PackageName'] = $scope.config['LearningObject']['WebContentPath'].split("/")[2]//tmp code to be removed 
-							console.log("check this:" + $scope.config['LearningObject']['PackageName']);
-                            replacedHtml = responseHtml.replace(varToReplace1, filesRootPath + "Unpackage/" + $scope.config['LearningObject']['PackageName'] + "/web_resources/");
+                            $scope.config['LearningObject']['PackageName'] = $scope.config['LearningObject']['WebContentPath'].split("/")[2]; //tmp code which can be removed when PackageName is passed from data
+
+                            replacedHtml = responseHtml.replace(varToReplaceHtml, filesRootPath + "Unpackage/" + $scope.config['LearningObject']['PackageName'] + "/web_resources/");
                             console.log(replacedHtml[0] + "asdf" + replacedHtml[replacedHtml.length - 1]);
                             replacedHtml = replacedHtml.replace(/\\"/g, '"');
 
@@ -308,8 +145,8 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
     };
 
     $scope.getTrustedHtml = function getTrustedHtml(textToBeTrusted) {
-        var textToBeTrustedTmp = textToBeTrusted.replace(varToReplace, filesRootPath);
-        return $sce.trustAsHtml(textToBeTrustedTmp);
+        var textToBeTrustedtmp = textToBeTrusted.replace(varToReplace, filesRootPath);
+        return $sce.trustAsHtml(textToBeTrustedtmp);
     };
 
     $scope.ansSelect = function ansSelect(option, isRadio) {
@@ -330,14 +167,14 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
     $scope.getURL = function getURL(resourceType, typeID) {
         if (resourceType == 2) {
             if (typeID) {
-                return $sce.trustAsResourceUrl(EOLRootPath + "/Home/" + $scope.typeToIDMap[typeID]+".html"); //updated locally
+                return $sce.trustAsResourceUrl(EOLRootPath + "/Home/" + $scope.typeToIDMap[typeID]);
             } else {
                 return '';
             }
         } else if (resourceType == 3) {
-            return $sce.trustAsResourceUrl(EOLRootPath + "/Home/WebContent.html");
+            return $sce.trustAsResourceUrl(EOLRootPath + "/Home/WebContent");
         } else if (resourceType == 4) {
-            return $sce.trustAsResourceUrl(EOLRootPath + "/Home/WebLink.html");
+            return $sce.trustAsResourceUrl(EOLRootPath + "/Home/WebLink");
         }
     };
 
@@ -396,8 +233,8 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 			.error(function (data) { console.error('File Submit Error'); });
         }
     };
-    
-   $scope.timerForQuiz = function timerForQuiz() {
+
+    $scope.timerForQuiz = function timerForQuiz() {
         var TimerClass = (function () {
             Number.prototype.toHHMMSS = function () {
                 var sec_num = parseInt(this, 10); // don't forget the second parm
@@ -495,15 +332,15 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 		}
 		return flagAllAnswered
 	}
-		
-	$scope.getRole = function getRole(val){
-		if(val=='urn:lti:role:ims/lis/instructor')
-		{			
-			$scope.showScoring = true;
-			$scope.disableInputs = true;
-			$scope.isInstructor = true;
-		}			
-	};
+	
+    $scope.getRole = function getRole(val) {
+        console.log("role:" + val);
+        if (val == 'urn:lti:role:ims/lis/instructor') {
+            $scope.showScoring = true;
+            $scope.disableInputs = true;
+            $scope.isInstructor = true;
+        }
+    };
 
 	$scope.skipToNextPage = function skipToNextPage(){
 		$scope.pageInProgress++;
@@ -580,5 +417,5 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 	    var pos = x.lastIndexOf(',');
 	    return x.substring(0, pos) + ' and ' + x.substring(pos + 1);
 	}
-    	
+	
 });

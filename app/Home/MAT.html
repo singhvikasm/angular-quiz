@@ -1,0 +1,11 @@
+﻿
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+
+    <div data-ng-repeat="option in config['LearningObject'][pageInProgress]['Options']">
+        <div style="width:200px;padding-bottom:10px;display:inline-block" data-ng-bind-html='getTrustedHtml(option.Title)'></div>
+        <select data-ng-model="option['response']">        	            
+            <option data-ng-repeat="matchingOption in option['MatchingOptions']" data-ng-disabled="disableInputs">{{ matchingOption.Title }}</option>
+        </select>
+    </div>
+</div>

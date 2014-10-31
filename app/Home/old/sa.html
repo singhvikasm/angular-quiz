@@ -1,4 +1,5 @@
 <div class="questionHolder">
 		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']" data-ng-bind-html="trustedHtmlQText"></div>
+		<pdfviewer src="test.pdf" on-page-load='pageLoaded(page,total)' id="viewer"></pdfviewer>
 		<input type="text" data-ng-model="config['questionList'][questionInProgress]['responseEntered']"/>
 </div>

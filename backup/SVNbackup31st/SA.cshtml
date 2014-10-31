@@ -1,0 +1,8 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+    <input type="text" data-ng-model="config['LearningObject'][pageInProgress]['responseEntered']" data-ng-disabled="disableInputs" />
+</div>

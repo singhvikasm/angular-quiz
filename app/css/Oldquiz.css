@@ -21,21 +21,14 @@ body {
 	float: right;
 }
 
-.questionText,.authenticationText {
+.questionText {
 	margin-bottom: 30px;
 	font-size: 1.5em;
 }
 
 .questionHolder + .navigator, .questionHolder {
-	margin: auto;	
+	margin: auto;
 }
 
-.displayBlock {
-	display: block;
-}
-
-.scoreTextBox {
-	width: 50px;
-}
 
 .MCQ3 { background-image: url('/media/images/choice2.jpg'); height: 100px; width: 170px }

@@ -5,22 +5,80 @@
 		<link rel="stylesheet" type="text/css" href="css/quiz.css" />
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css" />
+		<!--merge:-->
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 		<script type="text/javascript" src="js/vendors/angular.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<!--<script type="text/javascript" src="js/vendors/pdf.js"></script>-->
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="js/controllers/quizController.js"></script>
 		<script type="text/javascript" src="js/services/directives.js"></script>
+		<!--<script type="text/javascript" src="js/vendors/ng-pdfviewer.js"></script>-->
 	</head>
 	<body>
-		<div class="container quiz-container panel panel-primary" data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
+		<div data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
+			<div class="container quiz-container panel panel-primary">		
+			    <div class="panel-heading"></div>
+			    <div><input type="hidden" data-ng-init="getAllQuestions(37);getRole('urn:lti:role:ims/lis/instructor')" /></div>
+			    <div data-ng-if="!ifAuthentication">
+				    <div class="panel-body row"><div class="col-md-7"></div><b><div class="col-md-2">Points: {{config['LearningObject'][pageInProgress]['MaxScore']}}</div><div class="quizTimer col-md-3" data-ng-show="showQuizTimer">Time left: <span id="timer" style="color:green"></span></b></div></div>		    
+				    <div class='panel-body' data-ng-include src="getURL(config.ResourceType, config['LearningObject'][pageInProgress]['QuestionTypeID'])"></div>				    
+			    	<div class="navigator">
+						<div class="prevButton navigationButton btn btn-primary ng-hide" data-ng-click="prevPage()" data-ng-show="!config['HidePrevious'] && config['LearningObject'][pageInProgress-1]">Previous</div>
+			        	<div class="nextButton navigationButton btn btn-primary ng-hide" data-ng-show="showSubmit" data-ng-click="submit()">Submit</div>
+			        	<div class="nextButton navigationButton btn btn-primary ng-hide" data-ng-click="nextPage()" data-ng-show="config['LearningObject'][pageInProgress+1]" type="submit">Next</div>
+			    	</div>
+			    </div>
+			    <div data-ng-if="ifAuthentication" class="panel-body">
+			    	<center>
+			    		<div class="authenticationText">Enter access code to procced to quiz</div>
+			    		<div><input type="text" id="accessCode"/></div><br/>
+			    		<div class="btn btn-primary" data-ng-click="postAuthentication()">Submit</div>
+			    	</center>			    	
+			    </div>
+			</div>
+			<!--merge:submit-->
+			 <div class="modal fade" id="modalOKCancel">
+		        <div class="modal-dialog">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <button type="button" class="close close-black" data-dismiss="modal"
+		                        aria-hidden="true">x</button>
+		                    <h4 class="modal-title" id="modalOKCancelTitle"></h4>
+		                </div>
+		                <div class="modal-body" id="modalOKCancelBody" style="padding:0px; max-height: 500px; overflow: auto;">
+		
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+		                        id="modalOKCancelSubmitButton">Submit</button>
+		                    <button type="button" class="btn btn-default" data-dismiss="modal"
+		                        id="modalOKCancelCancelButton">Cancel</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 			
-			<div class="panel-heading">Quiz</div>
-			<div class='panel-body' data-ng-include src="getURL(config['questionList'][questionInProgress]['Qtype'])"></div>
-			
-			<div class="navigator">
-				<div class="prevButton navigationButton btn btn-primary" data-ng-click="prevQuestion()" data-ng-show="config['questionList'][questionInProgress-1]">prev</div>
-				<div class="nextButton navigationButton btn btn-primary" data-ng-click="submit()" >submit</div>
-				<div class="nextButton navigationButton btn btn-primary" data-ng-click="nextQuestion()" data-ng-show="config['questionList'][questionInProgress+1]">next</div>
-			</div>	
+			<div class="modal fade" id="modalOKInfo">
+		        <div class="modal-dialog">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                    <button type="button" class="close close-black" data-dismiss="modal"
+		                        aria-hidden="true">x</button>
+		                    <h4 class="modal-title" id="modalOKInfoTitle"></h4>
+		                </div>
+		                <div class="modal-body" id="modalOKInfoBody" style="padding:0px; max-height: 500px; overflow: auto;">
+		
+		                </div>
+		                <div class="modal-footer">
+		                	<button type="button" class="btn btn-primary" data-dismiss="modal"
+		                        id="modalOKInfoProceedButton" data-ng-click="skipToNextPage()">Proceed anyway</button>
+		                    <button type="button" class="btn btn-default" data-dismiss="modal"
+		                        id="modalOKInfoCancelButton">Cancel</button>	                    
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 		</div>
 	</body>
 </html>

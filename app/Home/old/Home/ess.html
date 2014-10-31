@@ -1,0 +1,7 @@
+﻿@{
+    Layout = null;
+}
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+    <textarea data-ng-model="config['questionList'][questionInProgress]['responseEntered']"></textarea>
+</div>

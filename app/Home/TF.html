@@ -1,0 +1,9 @@
+﻿
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+
+    <div class="optionsHolder">
+        <label> <input type="radio" data-ng-click="ansSelect('true',true)" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered']['true']"> TRUE </label>
+        <label> <input type="radio" data-ng-click="ansSelect('false',true)" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered']['false']"> FALSE </label>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="questionHolder">
+    <div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+
+    <div class="optionsHolder">
+        <div data-ng-repeat=" option in config['questionList'][questionInProgress]['Options']">
+            <label data-ng-click="ansSelect(option.Id, true)"> <input type="radio" name="userAnswer" data-ng-checked="config['questionList'][questionInProgress]['responseEntered'][option.Id]">&nbsp;&nbsp;<span data-ng-bind-html="getTrustedHtml(option.Title)"></span></label>
+        </div>
+    </div>
+</div>

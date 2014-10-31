@@ -378,6 +378,9 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
                 window.location.href = "http://dev-cdp.educate-online.local/CDPdev/Feedback/Index";
             });
 
+            $('#modalOKCancelSubmitButton').html('Submit');
+            $('#modalOKCancelCancelButton').html('Cancel');
+            
             $('#modalOKCancel').modal('show');
         }
     };
@@ -513,16 +516,12 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 	$scope.postAuthentication = function postAuthentication(){
 		//"urlFromGetAllQuestions&accesscode="+$("#accessCode").val()
 		$http.get("").success(function (data, status, headers, config) {
-			$scope.config['IsAccessCodeCorrect'] = true //static remove this line
+			$scope.config['IsAccessCodeCorrect'] = t //static remove this line
 			if($scope.config['IsAccessCodeCorrect']){       			
        			quizLoad();
        		}else{
        			$scope.ifAuthentication = true
-       			$('#modalOKInfoTitle').html('Invalid access code!');
-            	$('#modalOKInfoBody').html("<div style='padding: 20px;'>The access code you entered is not valid</div>");
-            	$('#modalOKInfoCancelButton').html("OK");
-            	$('#modalOKInfoProceedButton').hide();
-            	$('#modalOKInfo').modal('show');
+       			
        		}
 		});		
 	}
@@ -555,18 +554,19 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 			console.log($scope.config['LearningObject'][$scope.pageInProgress]['ManualScore']);
 			if(navtype=="next" && !$scope.config['LearningObject'][$scope.pageInProgress]['ManualScore']){
     			enableNav = false
-    			$('#modalOKInfoTitle').html("You didn't enter score");
-            	$('#modalOKInfoBody').html("<div style='padding: 20px;'>You have not entered any score. Please consider scoring this question later.<br/><br/>Please click on 'Cancel' if you want to score this question now.</div>");
-            	$('#modalOKInfoCancelButton').html("Cancel");
-            	$('#modalOKInfoProceedButton').show();
-            	$('#modalOKInfo').modal('show');
+    			$('#modalOKCancelTitle').html("You didn't enter score");
+            	$('#modalOKCancelBody').html("<div style='padding: 20px;'>You have not entered any score. Please consider scoring this question later.<br/><br/>Please click on 'Cancel' if you want to score this question now.</div>");
+            	$('#modalOKCancelCancelButton').html("Cancel");
+            	$('#modalOKCancelSubmitButton').html('Proceed anyway');
+            	$('#modalOKCancelSubmitButton').show();
+            	$('#modalOKCancel').modal('show');
     		}else if(!($scope.config['LearningObject'][$scope.pageInProgress]['ManualScore']>= 0) || !($scope.config['LearningObject'][$scope.pageInProgress]['ManualScore'] <= $scope.config['LearningObject'][$scope.pageInProgress]['MaxScore'])){    				
 				enableNav = false
-    			$('#modalOKInfoTitle').html('Invalid entry!');
-            	$('#modalOKInfoBody').html("<div style='padding: 20px;'>Please enter a value between <b>0 and "+$scope.config['LearningObject'][$scope.pageInProgress]['MaxScore']+"</b> as a score!</div>");
-            	$('#modalOKInfoCancelButton').html("OK");
-            	$('#modalOKInfoProceedButton').hide();
-            	$('#modalOKInfo').modal('show');
+    			$('#modalOKCancelTitle').html('Invalid entry!');
+            	$('#modalOKCancelBody').html("<div style='padding: 20px;'>Please enter a value between <b>0 and "+$scope.config['LearningObject'][$scope.pageInProgress]['MaxScore']+"</b> as a score!</div>");
+            	$('#modalOKCancelCancelButton').html("OK");
+            	$('#modalOKCancelSubmitButton').hide();
+            	$('#modalOKCancel').modal('show');
     		}
     	}
     	if(enableNav == false){

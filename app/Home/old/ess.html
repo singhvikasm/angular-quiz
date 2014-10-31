@@ -1,0 +1,10 @@
+<div class="questionHolder">
+		<div class="questionText" data-ng-if="config['questionList'][questionInProgress]['Qtext']" data-ng-bind-html="trustedHtmlQText"></div>
+		<!--<div class="container" ng-controller="DocCtrl">
+  			<ng-pdf template-url="/media/viewer.html"></ng-pdf>
+		</div>		
+		<canvas id="pdf-canvas"></canvas>-->
+		<embed src="{{content}}"  type="application/pdf" style="width:200px;height:200px;"></embed>
+		
+		<textarea data-ng-model="config['questionList'][questionInProgress]['responseEntered']"></textarea>
+</div>
