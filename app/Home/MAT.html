@@ -1,11 +1,24 @@
-﻿
-<div class="questionHolder">
+﻿<div class="questionHolder">
     <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
 
     <div data-ng-repeat="option in config['LearningObject'][pageInProgress]['Options']">
-        <div style="width:200px;padding-bottom:10px;display:inline-block" data-ng-bind-html='getTrustedHtml(option.Title)'></div>
-        <select data-ng-model="option['response']">        	            
-            <option data-ng-repeat="matchingOption in option['MatchingOptions']" data-ng-disabled="disableInputs">{{ matchingOption.Title }}</option>
+        <div class="optionTitleMAT" data-ng-bind-html='getTrustedHtml(option.Title)'></div>
+        <select data-ng-model="option['response']">
+            <option disabled="disabled" value="">Select one</option>
+            <option data-ng-repeat="matchingOption in option['MatchingOptions']" ng-selected="{{matchingOption.Id == option['response']}}" data-ng-disabled="disableInputs" data-ng-value="matchingOption.Id" data-ng-bind-html='getTrustedHtml(matchingOption.Title)'></option>
         </select>
+        <span data-ng-if="isFeedbackScreen">
+            {{feedbackMAT(option)}}
+            <br />
+            <span data-ng-if="!correctOptMATFb">
+                <span class="glyphicon glyphicon-remove wrongAnswer"></span><br />
+                {{setInCorrectFeedback(pageInProgress)}}
+                <span data-ng-repeat="matchingOption in option['MatchingOptions']">
+                    <span class="correctMATAnswer" data-ng-if="matchingOption.IsCorrect" data-ng-bind-html='getTrustedHtml(matchingOption.Title)'></span>
+                </span><br /><br />
+            </span>
+
+            <span data-ng-if="correctOptMATFb"><span class="glyphicon glyphicon-ok correctAnswer"></span><br /><br /></span>
+        </span>
     </div>
 </div>

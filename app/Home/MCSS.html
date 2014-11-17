@@ -1,11 +1,15 @@
 ﻿
-
 <div class="questionHolder">
     <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
 
     <div class="optionsHolder">
-        <div data-ng-repeat=" option in config['LearningObject'][pageInProgress]['Options']">
-            <label data-ng-click="ansSelect(option.Id, true)"> <input type="radio" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered'][option.Id]">&nbsp;&nbsp;<span data-ng-bind-html="getTrustedHtml(option.Title)"></span></label>
+        <div data-ng-repeat="option in config['LearningObject'][pageInProgress]['Options']">
+			<span data-ng-if="isFeedbackScreen">
+				<span data-ng-if="option.isUserAnswer && !option.IsCorrect">{{setInCorrectFeedback(pageInProgress)}}<span class="glyphicon glyphicon-remove wrongAnswer"></span></span>
+				<span data-ng-if="option.IsCorrect && !option.isUserAnswer">{{setInCorrectFeedback(pageInProgress)}}<span class="glyphicon glyphicon-ok unAnsweredCorrect"></span></span>
+				<span data-ng-if="option.IsCorrect && option.isUserAnswer"><span class="glyphicon glyphicon-ok correctAnswer"></span></span>
+			</span>
+			<label data-ng-click="ansSelect(option.Id, '1')"> <input type="radio" name="userAnswer" data-ng-checked="option.isUserAnswer" data-ng-disabled="disableInputs">&nbsp;&nbsp;<span data-ng-bind-html="getTrustedHtml(option.Title)"></span></label>
         </div>
     </div>
 </div>

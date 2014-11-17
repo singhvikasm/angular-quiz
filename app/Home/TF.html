@@ -3,7 +3,25 @@
     <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
 
     <div class="optionsHolder">
-        <label> <input type="radio" data-ng-click="ansSelect('true',true)" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered']['true']"> TRUE </label>
-        <label> <input type="radio" data-ng-click="ansSelect('false',true)" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered']['false']"> FALSE </label>
+    	<form>
+	    	<fieldset data-role="controlgroup">
+		        <div>
+		        	<span data-ng-if="isFeedbackScreen" data-ng-init="isUserAnswer=config['LearningObject'][pageInProgress]['Options'][0]['isUserAnswer'];IsCorrect=config['LearningObject'][pageInProgress]['Options'][0]['IsCorrect']">
+						<span data-ng-if="isUserAnswer && !IsCorrect"><span class="glyphicon glyphicon-remove wrongAnswer">{{setInCorrectFeedback(pageInProgress)}}</span></span>
+						<span data-ng-if="IsCorrect && !isUserAnswer"><span class="glyphicon glyphicon-ok unAnsweredCorrect">{{setInCorrectFeedback(pageInProgress)}}</span></span>
+						<span data-ng-if="IsCorrect && isUserAnswer"><span class="glyphicon glyphicon-ok correctAnswer"></span></span>
+					</span>
+		        	<label> <input type="radio" data-ng-click="ansSelect(true,'3')" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['Options'][0]['isUserAnswer']" data-ng-disabled="disableInputs"/>&nbsp;&nbsp;{{config['LearningObject'][pageInProgress]['Options'][0]['Title']}}&nbsp;&nbsp;</label>
+		        </div>
+		        <div>
+		        	<span data-ng-if="isFeedbackScreen" data-ng-init="isUserAnswer=config['LearningObject'][pageInProgress]['Options'][1]['isUserAnswer'];IsCorrect=config['LearningObject'][pageInProgress]['Options'][1]['IsCorrect']">
+						<span data-ng-if="isUserAnswer && !IsCorrect"><span class="glyphicon glyphicon-remove wrongAnswer">{{setInCorrectFeedback(pageInProgress)}}</span></span>
+						<span data-ng-if="IsCorrect && !isUserAnswer"><span class="glyphicon glyphicon-ok unAnsweredCorrect">{{setInCorrectFeedback(pageInProgress)}}</span></span>
+						<span data-ng-if="IsCorrect && isUserAnswer"><span class="glyphicon glyphicon-ok correctAnswer"></span></span>
+					</span>
+		        	<label> <input type="radio" data-ng-click="ansSelect(false,'3')" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['Options'][1]['isUserAnswer']" data-ng-disabled="disableInputs"/>&nbsp;&nbsp;{{config['LearningObject'][pageInProgress]['Options'][1]['Title']}}&nbsp;&nbsp;</label>
+		        </div>
+			</fieldset>
+		</form>
     </div>
 </div>

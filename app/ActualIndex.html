@@ -1,0 +1,381 @@
+﻿@model LearningMate.Projects.EOL.LTIFramework.Lti1.LtiRequest
+
+@{
+    ViewBag.Title = "Play";
+}
+
+<div data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
+    <div class="container quiz-container panel panel-primary">
+        <div class="panel-heading"></div>
+        <div><input type="hidden" data-ng-init="getAllQuestions(@Request.Form["custom_learning_activity_id"],@Request.Form["custom_cdp_item_id"],@Request.Form["user_id"],@ViewData["roles"],@ViewData["studentID"])" /></div>
+        <div data-ng-if="!isFeedbackScreen">
+            <div data-ng-if="!attemptScreen">
+                <div data-ng-if="ifAuthentication==false">
+                    <div class="panel-body row" data-ng-if="ifQuiz"><font size="8em"><div class="col-md-3"><span data-ng-show="config['LearningObject'][pageInProgress]['SectionName']" style="border: 1px solid; padding: 3px; background-color: grey">{{config['LearningObject'][pageInProgress]['SectionName']}}</span></div></font><div class="col-md-4"></div><b><div class="col-md-2" data-ng-show="config['LearningObject'][pageInProgress]['MaxScore']">Points: {{config['LearningObject'][pageInProgress]['MaxScore']}}</div><div class="quizTimer col-md-3" data-ng-show="showQuizTimer">Time left: <span id="timer" style="color:green"></span></div></b></div>
+                    <div class='panel-body' data-ng-include src="getURL(config.ResourceType, config['LearningObject'][pageInProgress]['QuestionTypeID'])"></div>
+                    <div class="navigator">
+                        <div class="prevButton navigationButton btn btn-primary ng-hide" data-ng-click="prevPage()" data-ng-show="config['LearningObject'][pageInProgress-1]">Previous</div>
+                        <div class="nextButton navigationButton btn btn-primary ng-hide" data-ng-show="showSubmit" data-ng-click="submit()">Submit</div>
+                        <div class="nextButton navigationButton btn btn-primary ng-hide" data-ng-click="nextPage()" data-ng-show="config['LearningObject'][pageInProgress+1]" type="submit">Next</div>
+                    </div>
+                </div>
+                <div data-ng-if="ifAuthentication" class="panel-body">
+                    <center>
+                    	<div id="authenticationAlert" class="alert alert-danger">            
+					        <div class="alert-text">The access code you entered is not recognized. Please check it and re-submit.</div>
+					    </div>
+                        <div class="authenticationText">This quiz requires an access code to proceed.</div>
+                        <div><input type="password" id="accessCode" placeholder="[ Access code ] "/></div><br />
+                        <div class="btn btn-primary" data-ng-click="postAuthentication()">Proceed to quiz</div>
+                    </center>
+                </div>
+            </div>
+            @*<div id="gifLoading" style="display: none"><center><img src="http://localhost:55257/Images/loading.gif" /></center></div>*@
+            <div data-ng-if="attemptScreen" class="panel-body">
+                <center>
+                    <div data-ng-if="config['NoOfAttempt']<=config['MaxAttempt']">
+                        <div class="welcomeText">                                                        
+                            <span data-ng-if="config['NoOfAttempt']!=config['MaxAttempt']">This quiz allows you {{config['MaxAttempt']}} attempts to successfully pass with a score of {{config['PassScore']}} or better.</span>
+                            <span data-ng-if="config['NoOfAttempt']==config['MaxAttempt']">This is your last attempt for this quiz. You are allowed {{config['MaxAttempt']}} attempts to successfully pass with a score of {{config['PassScore']}} or better.</span>
+                        </div>
+                        <div class="btn btn-primary" data-ng-click="quizLoad()">Start Quiz</div>
+                    </div>
+                    <div data-ng-if="config['NoOfAttempt']>config['MaxAttempt']">
+                        <div class="welcomeText">
+                            This quiz is no longer available. The maximum number of attempts allowed has been made. 
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+        <div data-ng-if="isFeedbackScreen">
+            <div class="panel-body">
+                <center>
+                    <div class="feedbackTitle">
+                        <strong>Score: <span data-ng-bind-template="{{config['TotalScore']?config['TotalScore']:0}}/{{config['MaxScore']}}"></span></strong><br />
+                    </div>
+                    Score for instructor graded questions are not included yet
+                </center>
+            </div>
+            <div class="feedbackQuestion" data-ng-repeat="question in config['LearningObject']" data-ng-init="pageInProgress=$index;disableInputs=true;currentQuest=config['LearningObject'][pageInProgress];">
+                {{feedbackQuestion(pageInProgress)}}
+                <div class='panel-body'>
+                    <!--<div class="pull-right"><strong><span data-ng-bind-template="{{currentQuest['ManualScore']?currentQuest['ManualScore']:0}}/{{currentQuest['MaxScore']}}"></span> points</strong></div>-->
+                    <div data-ng-include src="getURL(config.ResourceType, currentQuest['QuestionTypeID'])"></div>
+                    <div data-ng-if="currentQuest['GeneralFeedback'] || currentQuest['CorrectAnswerFeedback'] || currentQuest['IncorrectAnswerFeedback']">
+                        <div data-ng-if="ifAutoGradedQuest(currentQuest['QuestionTypeID'])" class="popover bottom quizFeedback">
+                            <div class="arrow arrowLeft"></div>
+                            <div class="popover-content">
+                                <div class="feedbackText" data-ng-if="currentQuest['GeneralFeedback']" data-ng-bind-html="getTrustedHtml(currentQuest['GeneralFeedback'])"></div>
+                                <div class="feedbackText" data-ng-if="!currentQuest['InCorrect'] && currentQuest['CorrectAnswerFeedback']" data-ng-bind-html="getTrustedHtml(currentQuest['CorrectAnswerFeedback'])"></div>
+                                <div class="feedbackText" data-ng-if="currentQuest['InCorrect']==true && currentQuest['IncorrectAnswerFeedback']" data-ng-bind-html="getTrustedHtml(currentQuest['IncorrectAnswerFeedback'])"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal pop-ups-->
+    <div class="modal fade" id="modalOKCancel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-black" data-dismiss="modal"
+                            aria-hidden="true">
+                        x
+                    </button>
+                    <h4 class="modal-title" id="modalOKCancelTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalOKCancelBody" style="padding:0px; max-height: 500px; overflow: auto;">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            id="modalOKCancelSubmitButton">
+                        Submit
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            id="modalOKCancelCancelButton">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalOKInfo">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-black" data-dismiss="modal"
+                            aria-hidden="true">
+                        x
+                    </button>
+                    <h4 class="modal-title" id="modalOKInfoTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalOKInfoBody" style="padding:0px; max-height: 500px; overflow: auto;">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            id="modalOKInfoProceedButton" data-ng-click="skipToNextPage()">
+                        Proceed anyway
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            id="modalOKInfoCancelButton">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> 
+                    
+</div>
+
+@*<div id="bodyContainer" ng-app="QuizApp">
+        <section id="content">
+
+            <div class="container">
+                <div class="row">
+                    <div class="flip-container text-center col-md-12" ng-controller="QuizCtrl" ng-init="getAllQuestions()">
+                        <div style="width:150px;height:50px;margin-top:-28px;float:right;">
+                            <div id="timer" style="float:right;font-size:20px;font-weight:bold;color:green;"></div>
+                        </div>
+
+                            <div class="front" ng-class="{flip: answered}">
+
+                                @*<div ng-bind-html-unsafe="questionList[quesIndex].Title"></div>
+
+                                <p class="lead"><b> {{quesIndex+1}}. {{questionList[quesIndex].Title}}</b></p>
+
+                                <div class="radio-inline">
+
+                                    <label data-ng-repeat="option in questionList[quesIndex].Options" class="" style="padding:5px;color:#222;font-family:corbel,sans-serif;font-size: 14px;margin: 10px;vertical-align:top;">
+                                        <input type="radio" name="response" ng-value="true" ng-click="setChoiceForQuestion(questionList[quesIndex], option)" data-ng-model="option.isUserAnswer" />
+                                        {{option.Title}}
+                                    </label>
+                                </div>
+
+                                <br />
+                                <br />
+                                <button class="btn btn-info btn-lg next option" ng-click="previousQuestion()"  ng-hide="hide_Previous">PREVIOUS</button>
+                                <button class="btn btn-info btn-lg next option" ng-click="nextQuestion()"  ng-hide="show">NEXT</button>
+
+
+                                <div style="font-size:x-large;" ng-hide="hide">
+                                    Test Completed !
+                                </div>
+                            </div>
+    </div>
+            </div>
+                </div>
+        </section>
+    </div>*@
+@*<div class="container" style="text-align:-moz-center">
+
+        <div id="wrap" style="width:50%;margin-top:2%;">
+            <table border="1" class="table">
+                <caption><h3>LTI Parameter</h3></caption>
+                <thead style="background-color: Scrollbar;">
+                    <tr>
+                        <th align="left">
+                            <b>Name</b>
+                        </th>
+                        <th align="left">
+                            <b> values</b>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th align="left">
+                            Context Id
+                        </th>
+                        <th align="left">
+                            @Model.ContextId
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Context Label
+                        </th>
+                        <th align="left">
+                            @Model.ContextLabel
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Context Title
+                        </th>
+                        <th align="left">
+                            @Model.ContextTitle
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Resource Link Id
+                        </th>
+                        <th align="left">
+                            @Model.ResourceLinkId
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Resource Link Label
+                        </th>
+                        <th align="left">
+                            @Model.ResourceLinkTitle
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Resource Link Description
+                        </th>
+                        <th align="left">
+                            @Model.ResourceLinkDescription
+                        </th>
+
+                    </tr>
+
+                    <tr>
+                        <th align="left">
+                            User Id
+                        </th>
+                        <th align="left">
+                            @Model.UserId
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            User Role
+                        </th>
+                        <th align="left">
+                            @Model.Roles
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Lis PersonName Full
+                        </th>
+                        <th align="left">
+                            @Model.LisPersonNameFull
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Lis PersonName Family
+                        </th>
+                        <th align="left">
+                            @Model.LisPersonNameFamily
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Lis PersonName Given
+                        </th>
+                        <th align="left">
+                            @Model.LisPersonNameGiven
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Lis PersonEmail Primary
+                        </th>
+                        <th align="left">
+                            @Model.LisPersonEmailPrimary
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Lis PersonName Full
+                        </th>
+                        <th align="left">
+                            @Model.LisPersonNameFull
+                        </th>
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Tool Consumer Info Product FamilyCode
+                        </th>
+                        <th align="left">
+                            @Model.ToolConsumerInfoProductFamilyCode
+                        </th>
+
+                    </tr>
+
+
+
+                    <tr>
+                        <th align="left">
+                            Tool Consumer Info Version
+                        </th>
+                        <th align="left">
+                            @Model.ToolConsumerInfoVersion
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Tool Consumer Instance Guid
+                        </th>
+                        <th align="left">
+                            @Model.ToolConsumerInstanceGuid
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Launch Presentation Locale
+                        </th>
+                        <th align="left">
+                            @Model.LaunchPresentationLocale
+                        </th>
+
+                    <tr>
+                        <th align="left">
+                            Launch Presentation Width
+                        </th>
+                        <th align="left">
+                            @Model.LaunchPresentationWidth
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Launch Presentation Height
+                        </th>
+                        <th align="left">
+                            @Model.LaunchPresentationHeight
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th align="left">
+                            Launch Presentation CssUrl
+                        </th>
+                        <th align="left">
+                            @Model.LaunchPresentationCssUrl
+                        </th>
+
+                    </tr>
+                    @foreach (var customparam in @Model.Parameters.AllKeys)
+                    {
+                        if (customparam.StartsWith("custom_"))
+                        {
+                            <tr>
+                                <th align="left">
+                                    @customparam;
+                                </th>
+                                <th align="left">
+                                    @Model.Parameters[@customparam];
+                                </th>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>*@

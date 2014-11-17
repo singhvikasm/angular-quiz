@@ -30,12 +30,12 @@ body {
 }
 
 .questionHolder + .navigator, .questionHolder {
-	margin: auto;	
+	margin: auto;
 }
 
 .displayBlock {
 	display: block;
-	margin: 15px;
+    margin: 15px;
 }
 
 .scoreTextBox {
@@ -51,20 +51,6 @@ body {
 .feedbackText{
 	padding:10px;
 }
-
-/*
-.error{
-	border: solid 1px red;
-	padding:5px;
-	margin:5px;
-}
-
-.error:before{
-	content: "Incorrect Answer",
-	border: solid 1px red;	
-}*/
-
-/*modifying bootstrap popover css as required*/
 
 .wrongAnswer{
 	color: red;	
@@ -99,6 +85,7 @@ body {
 	display: none;
 }
 
+/*modifying bootstrap popover css as required*/
 .quizFeedback{
 	display: inline-block !important;
 	position: relative !important;
@@ -108,14 +95,6 @@ body {
 
 .arrow.arrowLeft{
 	left:10% !important;
-}
-
-.wrongAnsfimbFeedback{
-	border: 2px solid red;
-}
-
-.correctAnsfimbFeedback{
-	border: 1px solid green;
 }
 
 .MCQ3 { background-image: url('/media/images/choice2.jpg'); height: 100px; width: 170px }

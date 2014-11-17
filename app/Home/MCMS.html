@@ -3,11 +3,20 @@
     <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
 
     <div class="optionsHolder">
-        <div data-ng-repeat="option in config['LearningObject'][pageInProgress]['Options']">
-            <input data-ng-click="ansSelect(option.Id)" type="checkbox" name="userAnswer" data-ng-checked="config['LearningObject'][pageInProgress]['responseEntered'][option.Id]" />
-            <label data-ng-click="ansSelect(option.Id)">
-                &nbsp;&nbsp;<span data-ng-bind-html="getTrustedHtml(option.Title)"></span>
-            </label>
-        </div>
+    	<form>
+	    	<fieldset data-role="controlgroup">
+		        <div data-ng-repeat="option in config['LearningObject'][pageInProgress]['Options']">
+		        	<span data-ng-if="isFeedbackScreen">
+						<span data-ng-if="option.isUserAnswer && !option.IsCorrect"><span class="glyphicon glyphicon-remove wrongAnswer">{{setInCorrectFeedback(pageInProgress)}}</span></span>
+						<span data-ng-if="option.IsCorrect && !option.isUserAnswer"><span class="glyphicon glyphicon-ok unAnsweredCorrect">{{setInCorrectFeedback(pageInProgress)}}</span></span>
+						<span data-ng-if="option.IsCorrect && option.isUserAnswer"><span class="glyphicon glyphicon-ok correctAnswer"></span></span>
+					</span>
+		            <input data-ng-click="ansSelect(option.Id,'2')" type="checkbox" name="userAnswer" data-ng-checked="option.isUserAnswer" data-ng-disabled="disableInputs" />
+		            <label data-ng-click="ansSelect(option.Id,'2')">
+		                &nbsp;&nbsp;<span data-ng-bind-html="getTrustedHtml(option.Title)"></span>
+		            </label>
+		        </div>
+			</fieldset>
+		</form>
     </div>
 </div>

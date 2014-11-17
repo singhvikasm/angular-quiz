@@ -1,4 +1,15 @@
-
+//$scope.ifAuthentication = config['IsAccessCodeRequired'];
+				/*Below to be uncommented if need to skip to unanswered question 
+				var flagAllAnswered = true;
+				for (var i = 0; i < $scope.config['LearningObject'].length; i++) {								
+		            flagAllAnswered = $scope.ifAnswered(i,flagAllAnswered)
+		            if(!flagAllAnswered){
+		            	break;
+		            }else{
+		            	$scope.pageInProgress++;
+		            }
+		        }*/
+		       
 ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
     var EOLRootPath = "http://localhost:8081";  //updated locally
     //var EOLRootPath = "http://dev-cdp.educate-online.local/CDPdev/";
