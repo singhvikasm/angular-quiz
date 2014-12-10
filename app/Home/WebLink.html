@@ -1,5 +1,5 @@
 ﻿
 <div class="questionHolder">
-    <div data-ng-bind-html="trustedHtmlQText"></div>
-    <!--data-ng-if="config['LearningObject']['WebLinkURL']"-->
+    <div data-ng-bind-html="trustedHtmlQText"></div>    
+	<button id="webLinkComplete" data-ng-if="isStudent" data-ng-click="reviewedWebLink()" class="btn btn-primary"><span data-ng-if="!config['IsWebLinkComplete']">Reviewed</span><span data-ng-if="config['IsWebLinkComplete']">Not yet reviewed</span></button>
 </div>

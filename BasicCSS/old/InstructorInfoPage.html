@@ -1,0 +1,10 @@
+<div data-ng-if="isInstructor">
+	<center>
+		Time:{{config['TimeDuration']}}<br/>
+		Access Code:{{config['AccessCode']}}<br />
+        Quiz Name:<span data-ng-if="config['QuizName']" data-ng-bind-html="getTrustedHtml(config['QuizName'])"></span><br/>
+		Allowed maximum Attempts:{{config['MaxAttempt']}}<br />
+		Student's attempt to be graded:{{config['NoOfAttempt']}}
+	</center>
+	<div class="btn btn-primary" data-ng-click="quizLoad()">Start Quiz</div>
+</div>

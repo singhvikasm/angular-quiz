@@ -1,0 +1,153 @@
+@model LearningMate.Projects.EOL.LTIFramework.Lti1.LtiRequest
+
+@{
+    ViewBag.Title = "Play";
+}
+
+<div data-ng-app='ngQuizApp' data-ng-controller='ngQuizController'>
+    <div class="container quiz-container panel panel-primary">
+        <div class="panel-heading"></div>
+        <div><input type="hidden" data-ng-init="getAllQuestions(@Request.Form["custom_learning_activity_id"],@Request.Form["custom_cdp_item_id"],@Request.Form["user_id"],@ViewData["roles"],@ViewData["studentID"],'@Request.Form["custom_learning_activity_identifier"]')" /></div>
+        <div data-ng-if="config['IsAuthorized']==false">
+            <div class="alert alert-danger">
+                <div class="alert-text">You are not authorized to launch this activity.</div>
+            </div>
+        </div>
+        <div data-ng-if="config['IsAuthorized']">
+            <div data-ng-if="!isFeedbackScreen">
+                <div data-ng-if="!attemptScreen">
+                    <div data-ng-if="ifAuthentication==false">
+                        <div class="panel-body row" data-ng-if="ifQuiz"><font size="8em"><div class="col-md-3"><span data-ng-show="config['LearningObject'][pageInProgress]['SectionName']" style="border: 1px solid; padding: 3px; background-color: grey">{{config['LearningObject'][pageInProgress]['SectionName']}}</span></div></font><div class="col-md-4"></div><b><div class="col-md-2" data-ng-show="config['LearningObject'][pageInProgress]['MaxScore']">Points: {{config['LearningObject'][pageInProgress]['MaxScore']}}</div><div class="quizTimer col-md-3" data-ng-show="showQuizTimer">Time left: <span id="timer" style="color:green"></span></div></b></div>
+                        <div class='panel-body' data-ng-include src="getURL(config.ResourceType, config['LearningObject'][pageInProgress]['QuestionTypeID'])"></div>
+                        <div class="navigator">
+                            <div class="prevButton navigationButton btn btn-primary ng-hide" data-ng-click="prevPage()" data-ng-show="config['LearningObject'][pageInProgress-1]">Previous</div>
+                            <div class="nextButton navigationButton btn btn-primary ng-hide" data-ng-show="showSubmit && !isAdmin" data-ng-click="submit()">Submit</div>
+                            <div class="nextButton navigationButton btn btn-primary ng-hide" data-ng-click="nextPage()" data-ng-show="config['LearningObject'][pageInProgress+1]" type="submit">Next</div>
+                        </div>
+                    </div>
+                    <div data-ng-if="ifAuthentication" class="panel-body">
+                        <center>
+                            <div id="authenticationAlert" class="alert alert-danger">
+                                <div class="alert-text">The access code you entered is not recognized. Please check it and re-submit.</div>
+                            </div>
+                            <div class="authenticationText">This quiz requires an access code to proceed.</div>
+                            <div><input type="password" id="accessCode" placeholder="Access code" /></div><br />
+                            <div class="btn btn-primary" data-ng-click="postAuthentication()">Proceed to quiz</div>
+                        </center>
+                    </div>
+                </div>
+                @*<div id="gifLoading" style="display: none"><center><img src="http://localhost:55257/Images/loading.gif" /></center></div>*@
+                <div data-ng-if="attemptScreen" class="panel-body">
+                    <center>
+                        <div data-ng-if="isStudent">
+                            <div data-ng-if="config['NoOfAttempt']<=config['MaxAttempt']">
+                                <div class="welcomeText">
+                                    <span data-ng-if="config['NoOfAttempt']!=config['MaxAttempt']">This quiz allows you {{config['MaxAttempt']}} attempts.</span>
+                                    <span data-ng-if="config['NoOfAttempt']==config['MaxAttempt']">This is your last attempt for this quiz. You are allowed {{config['MaxAttempt']}} attempts.</span>
+                                </div>
+                                <div class="btn btn-primary" data-ng-click="quizLoad()">Start Quiz</div>
+                            </div>
+                            <div data-ng-if="config['NoOfAttempt']>config['MaxAttempt']">
+                                <div class="welcomeText">
+                                    This quiz is no longer available. The maximum number of attempts allowed has been made.
+                                </div>
+                            </div>
+                        </div>
+                        <div data-ng-if="isInstructor">
+                            <ul>
+                                <li>Time:{{config['TimeDuration']}}</li>
+                                <li>Access Code:{{config['AccessCode']}}</li>
+                                <li>Quiz Name:{{config['QuizName']}}</li>
+                                <li>Allowed maximum Attempts:{{config['MaxAttempt']}}</li>
+                                <li>Student's attempt to be graded:{{config['NoOfAttempt']}}</li>
+                            </ul>
+                            <div class="btn btn-primary" data-ng-click="quizLoad()">Start Quiz</div>
+                        </div>
+                    </center>
+                </div>
+            </div>
+            <div data-ng-if="isFeedbackScreen">
+                <div class="panel-body">
+                    <center>
+                        <div class="feedbackTitle">
+                            <strong>Score: <span data-ng-bind-template="{{config['TotalScore']?config['TotalScore']:0}}/{{config['MaxScore']}}"></span></strong><br />
+                        </div>
+                        <div data-ng-if="isStudent">Score for instructor graded questions are not included yet</div>
+                    </center>
+                </div>
+                <div class="feedbackQuestion" data-ng-repeat="question in config['LearningObject']" data-ng-init="pageInProgress=$index;disableInputs=true;currentQuest=config['LearningObject'][pageInProgress];">
+                    {{feedbackQuestion(pageInProgress)}}
+                    <div class='panel-body'>
+                        <!--<div class="pull-right"><strong><span data-ng-bind-template="{{currentQuest['ManualScore']?currentQuest['ManualScore']:0}}/{{currentQuest['MaxScore']}}"></span> points</strong></div>-->
+                        <div data-ng-include src="getURL(config.ResourceType, currentQuest['QuestionTypeID'])"></div>
+                        <div data-ng-if="currentQuest['GeneralFeedback'] || currentQuest['CorrectAnswerFeedback'] || currentQuest['IncorrectAnswerFeedback']">
+                            <div data-ng-if="ifAutoGradedQuest(currentQuest['QuestionTypeID'])" class="popover bottom quizFeedback">
+                                <div class="arrow arrowLeft"></div>
+                                <div class="popover-content">
+                                    <div class="feedbackText" data-ng-if="currentQuest['GeneralFeedback']" data-ng-bind-html="getTrustedHtml(currentQuest['GeneralFeedback'])"></div>
+                                    <div class="feedbackText" data-ng-if="!currentQuest['InCorrect'] && currentQuest['CorrectAnswerFeedback']" data-ng-bind-html="getTrustedHtml(currentQuest['CorrectAnswerFeedback'])"></div>
+                                    <div class="feedbackText" data-ng-if="currentQuest['InCorrect']==true && currentQuest['IncorrectAnswerFeedback']" data-ng-bind-html="getTrustedHtml(currentQuest['IncorrectAnswerFeedback'])"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal pop-ups-->
+    <div class="modal fade" id="modalOKCancel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button id='cancelPopUp' type="button" class="close close-black" data-dismiss="modal"
+                            aria-hidden="true">
+                        x
+                    </button>
+                    <h4 class="modal-title" id="modalOKCancelTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalOKCancelBody" style="padding:0px; max-height: 500px; overflow: auto;">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            id="modalOKCancelSubmitButton">
+                        Submit
+                    </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            id="modalOKCancelCancelButton">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalOKInfo">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close close-black" data-dismiss="modal"
+                            aria-hidden="true">
+                        x
+                    </button>
+                    <h4 class="modal-title" id="modalOKInfoTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalOKInfoBody" style="padding:0px; max-height: 500px; overflow: auto;">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            id="modalOKInfoProceedButton" data-ng-click="skipToNextPage()">
+                        Proceed anyway
+                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                            id="modalOKInfoCancelButton">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

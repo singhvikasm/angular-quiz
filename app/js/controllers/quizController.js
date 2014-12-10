@@ -4,10 +4,12 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
     //var EOLRootPath = "http://dev-cdp.educate-online.local/CDPdev/";
     //var EOLRootPath = "http://qa-cdp.educate-online.local/CDPQA/";   
     var varToReplace = /\$IMS-CC-FILEBASE\$/g
-    var varToReplace1 = /%24IMS_CC_FILEBASE%24/g
+    var varToReplaceHtml = /%24IMS_CC_FILEBASE%24/g
     var filesRootPath = "http://dev-cdp.educate-online.local/CDPParserDev/";
     //var filesRootPath = "http://qa-cdp.educate-online.local/CDPParserqa/";
-
+	$scope.varToReplace = varToReplace;
+	$scope.filesRootPath = filesRootPath;
+	
     $scope.typeToIDMap = {
         1: 'ESS',
         2: 'FIMB',
@@ -43,8 +45,10 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 	$scope.attemptScreen = false;
 	$scope.isFeedbackScreen = false;	
 	$scope.showgifLoading = true;
-	$scope.ifQuiz = false;	
-	var unAnsweredQuestions = "",assessment_id, CDP_Item_ID, user_id, userRole, ifInfinteAttempts, skipAuthentication, skipAttemptScreen;
+	$scope.ifQuiz = false;
+	$scope.isAdmin = false;	
+	var unAnsweredQuestions = "",assessment_id, CDP_Item_ID, user_id, userRole, ifInfinteAttempts, skipAuthentication, skipAttemptScreen, myPlayer, pageInProgressNoCache = [];
+	$scope.videoIdNo = 1;
 	
     $scope.getAllQuestions = function (val) {
     	//$('#popMe').popover('show');
@@ -62,26 +66,57 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"WebContentType": 1,
 					"WebContentPath": "http://www.dummies.com/how-to/computers-software/programming/HTML.html"
 				}
-			}*/		
+			}	*/	
+/*
+<audio controls class='displayBlock'><source src='" + strMediaPath + "' type='audio/mpeg'>Your browser does not support the audio element.</audio>
+
+<video>
+    <source src="http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv" type='video/flv' />
+</video>
+<audio>
+    <source src="http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv" type='video/flv' />
+</audio>
+
+<video id="example_video_1" class='video-js vjs-default-skin' controls preload='auto' width='640' height='264' poster='' data-setup=''>
+    <source src="http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv" type='video/flv' />
+</video>
+
+<video controls id='myVideo1' class='video-js vjs-default-skin vjs-big-play-centered' preload='auto' width='640' height='264' data-ng-init='callVideojs(this.id)'><br/><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv'><br/></video>
+
+*/
 
 		data = {
+			"IsAuthorized": true,
 			"IsAccessCodeRequired": false,
-			"IsAccessCodeCorrect": true,
+			"IsAccessCodeCorrect": false,
 			"ResourceID": null,
 			"ResourceType": 2,
 			"MaxAttempt": 4,
 			"NoOfAttempt": 4,
 			"HidePrevious": false,
 			"IsTimed": true,
-			"TimeDuration": 60,
+			"TimeDuration": 5,
 			"MaxScore": 0,
 			"LastQuestionAnswered": "", //"812981d7-ff78-4cf8-a007-3bb83755080c",
 			"LearningObject": [{
+					"Id": "20290a82-13fc-43e9-88e3-8505793fc32c",
+					"SectionName": null,
+					"GeneralFeedback": null,
+					"CorrectAnswerFeedback": null,
+					"IncorrectAnswerFeedback": null,
+					"MaxScore": 10,
+					"MinScore": 0,
+					"QuestionTypeID": 1,
+					"Title": "Question <video controls><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv'/></video>text 2",
+					"responseEntered": "sdf",
+					"ManualScore": null
+				},
+				{
 					"Sr_No": 0,	
 					"Id": "e5bd6f0b-2b3b-4a95-85cc-98bf41d8333f",
 					"SectionName": "",
 					"SectionPerPointScore": null,
-					"Title": "The following items are used in the open entry / open exit format in place of classroom lectures and must be viewed by students as indicated in their module checklist. These items are found in the following places.",
+					"Title": "The following<video controls><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv' /></video><br/><video controls><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv' /></video><br/> items <br/><br/>are used in the open entry / open<a href='http://www.dummies.com/how-to/computers-software/programming/HTML.html'>hyperlink</a>exit format in place of classroom lectures and must be viewed by students as indicated in their module checklist. These items are found in the following places.",
 					"QuestionTypeID": "4",
 					"FileUploadPath": null,
 					"GeneralFeedback": "General Feedback comes here",
@@ -97,7 +132,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 						"ScorePercentage": "0",
 						"OptionGroup": "",
 						"isUserAnswer": false,
-						"response": '',							
+						"response": '',
 						"responseEntered": null,
 						"IsMatchingLabel": true,
 						"MatchingLabelID": "0",
@@ -541,7 +576,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"Id": "6128192c-92f0-43ee-b27e-b2915cce388f",
 					"SectionName": null,
 					"SectionPerPointScore": null,
-					"Title": "Time is one of the physician\'s most <audio controls class='displayBlock'><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio>valuable&apos; commodities.",
+					"Title": "Time is on<video controls><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv' /></video>e of the phy<a href='http://www.dummies.com/how-to/computers-software/programming/HTML.html'>hyperlink</a>sician\'s most <audio controls class='displayBlock'><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio>valuable&apos; commodities.",
 					"QuestionTypeID": "8",
 					"FileUploadPath": null,
 					"GeneralFeedback": "Time is a valuable commodity for the physician and office staff, and the schedule is the tool that helps make sure that the day runs smoothly.",
@@ -581,7 +616,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"Id": "6128192c-92f0-43ee-b27e-b2915cce388f",
 					"SectionName": null,
 					"SectionPerPointScore": null,
-					"Title": "Time is one of the physician\'s most <audio controls class='displayBlock'><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio>valuable&apos; commodities.",
+					"Title": "Time is one of <video controls><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv' /></video>the physician\'s most <audio controls class='displayBlock'><source src='/media/audio/choice.mp3' type='audio/mpeg'></audio>valuable&apos; commodities.",
 					"QuestionTypeID": "8",
 					"FileUploadPath": null,
 					"GeneralFeedback": "Time is a valuable commodity for the physician and office staff, and the schedule is the tool that helps make sure that the day runs smoothly.",
@@ -686,7 +721,72 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"Id": "06280ef5-863c-49a9-b8d6-51525878dd58",
 					"SectionName": null,
 					"SectionPerPointScore": null,
-					"Title": "Stephanie found a small lump in her left breast but has no history of any type of tumor. She should be seen:",
+					"Title": "Radio1: Stephanie found a small lump<a href='http://www.dummies.com/how-to/computers-software/programming/HTML.html'>hyperlink</a> in her left breast but has no history of any type of tumor. She should be seen:",
+					"QuestionTypeID": "6",
+					"FileUploadPath": null,
+					"GeneralFeedback": "Although a lump in the breast is not an emergency, the patient should definitely be seen in the same week that the lump was discovered. If the patient has a history of breast cancer, the appointment should be made for the same day.",
+					"CorrectAnswerFeedback": "",
+					"IncorrectAnswerFeedback": "",
+					"MaxScore": "4",
+					"ManualScore": 2,
+					"Options": [{
+						"Id": "71469357-ed9b-4543-a91e-cd45d93bbc65",
+						"Title": "immediately.",
+						"QuestionId": "06280ef5-863c-49a9-b8d6-51525878dd58",
+						"IsCorrect": true,
+						"ScorePercentage": null,
+						"OptionGroup": null,
+						"isUserAnswer": false,
+						"responseEntered": null,
+						"IsMatchingLabel": false,
+						"MatchingLabelID": "",
+						"MatchingOptions": null
+					},
+					{
+						"Id": "309c1bf0-ab54-4496-8cb5-a40cd99efb69",
+						"Title": "today.",
+						"QuestionId": "06280ef5-863c-49a9-b8d6-51525878dd58",
+						"IsCorrect": false,
+						"ScorePercentage": null,
+						"OptionGroup": null,
+						"isUserAnswer": true,
+						"responseEntered": null,
+						"IsMatchingLabel": false,
+						"MatchingLabelID": "",
+						"MatchingOptions": null
+					},
+					{
+						"Id": "87a279d1-3e81-4e0c-85dd-af0656971554",
+						"Title": "this week.",
+						"QuestionId": "06280ef5-863c-49a9-b8d6-51525878dd58",
+						"IsCorrect": false,
+						"ScorePercentage": null,
+						"OptionGroup": null,
+						"isUserAnswer": false,
+						"responseEntered": null,
+						"IsMatchingLabel": false,
+						"MatchingLabelID": "",
+						"MatchingOptions": null
+					},
+					{
+						"Id": "0a849e01-71a9-4e66-b533-78c006853a60",
+						"Title": "this month.",
+						"QuestionId": "06280ef5-863c-49a9-b8d6-51525878dd58",
+						"IsCorrect": false,
+						"ScorePercentage": null,
+						"OptionGroup": null,
+						"isUserAnswer": false,
+						"responseEntered": null,
+						"IsMatchingLabel": false,
+						"MatchingLabelID": "",
+						"MatchingOptions": null
+					}]
+				},{
+					"Sr_No": 0,
+					"Id": "06280ef5-863c-49a9-b8d6-51525878dd58",
+					"SectionName": null,
+					"SectionPerPointScore": null,
+					"Title": "Radio2: Stephanie found a small lump<a href='http://www.dummies.com/how-to/computers-software/programming/HTML.html'>hyperlink</a> in her left breast but has no history of any type of tumor. She should be seen:",
 					"QuestionTypeID": "6",
 					"FileUploadPath": null,
 					"GeneralFeedback": "Although a lump in the breast is not an emergency, the patient should definitely be seen in the same week that the lump was discovered. If the patient has a history of breast cancer, the appointment should be made for the same day.",
@@ -769,7 +869,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"MaxScore": 14,
 					"MinScore": 0,
 					"QuestionTypeID": "2",
-					"Title": "fimb textbox1 [answer1] textbox2 [answer2] textbox3 [answer3] end of sentence",
+					"Title": "fimb<a href='http://www.dummies.com/how-to/computers-software/programming/HTML.html'>hyperlink</a> textbox1 [answer1] textbox2 [answer2] textbox3 [answer3] end of sentence",
 					"responseEntered": {
 						"answer1": "sadf",
 						"answer2": "fgh",
@@ -782,20 +882,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"GeneralFeedback": "General feedback",
 					"CorrectAnswerFeedback": "correct feedback",
 					"IncorrectAnswerFeedback": "incorrect feedback"
-				},
-				{
-					"Id": "20290a82-13fc-43e9-88e3-8505793fc32c",
-					"SectionName": null,
-					"GeneralFeedback": null,
-					"CorrectAnswerFeedback": null,
-					"IncorrectAnswerFeedback": null,
-					"MaxScore": 10,
-					"MinScore": 0,
-					"QuestionTypeID": 1,
-					"Title": "Question text 2",
-					"responseEntered": "sdf",
-					"ManualScore": null
-				},
+				},				
 				{
 					"Id": "484726f0-69a6-49c9-b408-c882e5006748",
 					"SectionName": null,
@@ -815,7 +902,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
             $scope.config = {};
             $scope.config = data;
             
-            $scope.getRole(1);			
+            $scope.getRole(1);
 			
             if ($scope.config['ResourceType'] == 2) {
             	ifInfinteAttempts = $scope.config['MaxAttempt']==null || $scope.config['MaxAttempt'] < 0                
@@ -849,13 +936,14 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
         });
     };
 
-    $scope.nextPage = function nextPage() {
+    $scope.nextPage = function nextPage() {    	
     	var enableNext = true    	
     	if($scope.showScoring == true){
     		enableNext = scoreValidate("next") 	
     	}
     	if(enableNext == true){
-    		$scope.pageInProgress++;
+    		$('loadTemplate').html('');
+    		$scope.pageInProgress++;    		
         	$scope.safeHtml();
     	}
     };
@@ -866,56 +954,53 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
     		enablePrev = scoreValidate("prev") 	
     	}
     	if(enablePrev == true){
-    		$scope.pageInProgress--;
+    		$('loadTemplate').html('');
+    		$scope.pageInProgress--;    		
         	$scope.safeHtml();
     	}
     };
 
-    $scope.safeHtml = function safeHtml() {
-    	    	
+    $scope.safeHtml = function safeHtml() {    	
         if ($scope.config['ResourceType'] == 2) {
-        	$scope.config['LastQuestionAnswered'] = $scope.config['LearningObject'][$scope.pageInProgress]['Id']
-            $scope.trustedHtmlQText = $sce.trustAsHtml(($scope.pageInProgress+1)+'. '+$scope.config['LearningObject'][$scope.pageInProgress]['Title'].replace(varToReplace, filesRootPath));         
+        	if (!pageInProgressNoCache[$scope.pageInProgress]){
+        		pageInProgressNoCache[$scope.pageInProgress] = (Math.floor((Math.random() * 100000) + 1));
+        	}
+            $scope.config['LastQuestionAnsweredID'] = $scope.config['LearningObject'][$scope.pageInProgress]['Id']
+            //$scope.trustedHtmlQTextupdate = $scope.updateflvTag($scope.updateAnchorTag($scope.config['LearningObject'][$scope.pageInProgress]['Title'].replace(varToReplace, filesRootPath)))
+            //$scope.trustedHtmlQText = $sce.trustAsHtml(($scope.pageInProgress + 1) + '. ' + $scope.trustedHtmlQTextupdate);
         } else if ($scope.config['ResourceType'] == 4) {
-            $scope.trustedHtmlQText = $sce.trustAsHtml("<a href='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebLinkURL'].replace(varToReplace, filesRootPath)) + "'>" + $scope.config['LearningObject']['WebLinkTitle'].replace(varToReplace, filesRootPath) + "</a>");
-        } else if ($scope.config['ResourceType'] == 3) {
+            $scope.trustedHtmlQText = $sce.trustAsHtml("<a href='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebLinkURL'].replace(varToReplace, filesRootPath)) + "'>" + $scope.config['LearningObject']['WebLinkTitle'].replace(varToReplace, filesRootPath) + "</a>");            
+        } else if ($scope.config['ResourceType'] == 3) {            
             if ($scope.config['LearningObject']['WebContentType'] == 8) {
                 $scope.trustedHtmlQText = $sce.trustAsHtml("<a href='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)) + "' target='_blank'>Click here to open this file</a>");
             } else {
-                if ($scope.config['LearningObject']['WebContentType'] == 1 || $scope.config['LearningObject']['WebContentType'] == 2) {
+                if ($scope.config['LearningObject']['WebContentType'] == 1) {
 
-                    var flagReplaced = false;
                     var replacedHtml;
+					//EOLRootPath + "api/eol/geturlcontent?url=" + $scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)
+                    $http.get("http://localhost:8081/webResourceDummy.html").success(function (responseHtml) {
 
-                    if ($scope.config['LearningObject']['WebContentType'] == 1) {
-                        $http.get(EOLRootPath + "api/eol/geturlcontent?url=" + $scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)).success(function (responseHtml) {
+                        $scope.config['LearningObject']['PackageName'] = $scope.config['LearningObject']['WebContentPath'].split("/")[2]; //tmp code which can be removed when PackageName is passed from data
 
-							$scope.config['LearningObject']['PackageName'] = $scope.config['LearningObject']['WebContentPath'].split("/")[2]//tmp code to be removed 
-							console.log("check this:" + $scope.config['LearningObject']['PackageName']);
-                            replacedHtml = responseHtml.replace(varToReplace1, filesRootPath + "Unpackage/" + $scope.config['LearningObject']['PackageName'] + "/web_resources/");
-                            console.log(replacedHtml[0] + "asdf" + replacedHtml[replacedHtml.length - 1]);
-                            replacedHtml = replacedHtml.replace(/\\"/g, '"');
+                        replacedHtml = responseHtml.replace(varToReplaceHtml, filesRootPath + "Unpackage/" + $scope.config['LearningObject']['PackageName'] + "/web_resources/");
+                        console.log(replacedHtml[0] + "asdf" + replacedHtml[replacedHtml.length - 1]);
+                        replacedHtml = replacedHtml.replace(/\\"/g, '"');
 
-                            if ((replacedHtml[0] == '"') && (replacedHtml[replacedHtml.length - 1] == '"')) {
-                                replacedHtml = replacedHtml.slice(1, replacedHtml.length - 1)
-                            }
-
-                            if (replacedHtml != responseHtml) {
-                                flagReplaced = true
-                                $scope.trustedHtmlQText = $sce.trustAsHtml(replacedHtml);
-                            }
-                            console.log(replacedHtml);
-                        }).error(function (data, status, headers, config) {
-                            console.log("can't read html");
-                        });
-                    }
-
-                    if (flagReplaced) {
+                        if ((replacedHtml[0] == '"') && (replacedHtml[replacedHtml.length - 1] == '"')) {
+                            replacedHtml = replacedHtml.slice(1, replacedHtml.length - 1)
+                        }
+						
+						replacedHtml = $scope.updateAnchorTag(replacedHtml)
+						
                         $scope.trustedHtmlQText = $sce.trustAsHtml(replacedHtml);
-                    } else {
-                        $scope.trustedHtmlQText = $sce.trustAsHtml("<object data='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)) + "' type='" + $scope.typeToMimeType[$scope.config['LearningObject']['WebContentType']] + "'  width='95%' height='400'></object>");
-                    }
+                        
+                        console.log(replacedHtml);
+                    }).error(function (data, status, headers, config) {
+                        console.log("can't read html");
+                    });
 
+                } else if($scope.config['LearningObject']['WebContentType'] == 2){
+                	$scope.trustedHtmlQText = $sce.trustAsHtml("<object data='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)) + "' type='" + $scope.typeToMimeType[$scope.config['LearningObject']['WebContentType']] + "'  width='95%' height='400'></object>");
                 } else {
                     $scope.trustedHtmlQText = $sce.trustAsHtml("<center><object data='" + $sce.trustAsResourceUrl($scope.config['LearningObject']['WebContentPath'].replace(varToReplace, filesRootPath)) + "' type='" + $scope.typeToMimeType[$scope.config['LearningObject']['WebContentType']] + "'  width='auto' height='auto'></object></center>");
                 }
@@ -924,8 +1009,8 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
     };
 
     $scope.getTrustedHtml = function getTrustedHtml(textToBeTrusted) {
-        var textToBeTrustedTmp = textToBeTrusted.replace(varToReplace, filesRootPath);
-        return $sce.trustAsHtml(textToBeTrustedTmp);
+        var textToBeTrustedtmp = textToBeTrusted.replace(varToReplace, filesRootPath);
+        return $sce.trustAsHtml($scope.updateAnchorTag(textToBeTrustedtmp));
     };
 
     $scope.ansSelect = function ansSelect(option, qType) {
@@ -964,10 +1049,11 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
         }*/
     };
 
-    $scope.getURL = function getURL(resourceType, typeID) {
-        if (resourceType == 2) {
-            if (typeID) {
-                return $sce.trustAsResourceUrl(EOLRootPath + "/Home/" + $scope.typeToIDMap[typeID]+".html"); //updated locally
+    $scope.getURL = function getURL(resourceType, typeID, pageInProgress) {
+        if (resourceType == 2) {        	
+            if (typeID) {            	
+            	console.log(EOLRootPath + "/Home/" + $scope.typeToIDMap[typeID]+".html?"+pageInProgressNoCache[pageInProgress])
+                return $sce.trustAsResourceUrl(EOLRootPath + "/Home/" + $scope.typeToIDMap[typeID]+".html?"+pageInProgressNoCache[pageInProgress]); //updated locally
             } else {
                 return '';
             }
@@ -1026,21 +1112,6 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
         }
     };
 
-    $scope.validateUpload = function validateUpload() {
-        var ext = $scope.uploadForm.ext.name.split('.')[1];
-        if ($scope.config['LearningObject'][$scope.pageInProgress]['acceptableExtensions'].indexOf(ext) == -1) {
-            alert('invalid extension!');
-        } else {
-            $http({
-                'method': 'POST',
-                'url': '/a.php',
-                'data': { 'file': $scope.uploadForm.ext }
-            })
-			.success(function (data) { console.log('File submitted'); })
-			.error(function (data) { console.error('File Submit Error'); });
-        }
-    };
-    
    $scope.timerForQuiz = function timerForQuiz() {
         var TimerClass = (function () {
             Number.prototype.toHHMMSS = function () {
@@ -1090,8 +1161,10 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 
         TimerClass.startTimer(0, $scope.config['TimeDuration']*60, function () {
             linkNav = true;
-            TimerClass.stopTimer(function () { });
-            window.location.href = "http://dev-cdp.educate-online.local/CDPdev/Feedback/Index";
+            if(!$scope.isFeedbackScreen){
+            	TimerClass.stopTimer(function () { });
+            	window.location.href = "http://dev-cdp.educate-online.local/CDPdev/Feedback/Index";
+            }            
         });
     };
 
@@ -1163,7 +1236,9 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
             skipAuthentication = true;
             skipAttemptScreen = true;
         }
-		if (val == 3) {
+        if (val == 3) {
+        	$scope.isAdmin = true
+            $scope.disableInputs = true;
             skipAuthentication = true;
             skipAttemptScreen = true;
         }
@@ -1222,6 +1297,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 	        }
         }
         $scope.showSubmit = true
+        
         $scope.safeHtml();	
    	}
 
@@ -1230,7 +1306,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 		var enableNav = true
 		if($.inArray($scope.config['LearningObject'][$scope.pageInProgress]['QuestionTypeID'],[1,3,7])!==-1){
 			console.log($scope.config['LearningObject'][$scope.pageInProgress]['ManualScore']);
-			if(navtype=="next" && !$scope.config['LearningObject'][$scope.pageInProgress]['ManualScore']){
+			if(navtype=="next" && !$scope.config['LearningObject'][$scope.pageInProgress]['ManualScore']){				
     			enableNav = false
     			$('#modalOKInfoTitle').html("You didn't enter score");
             	$('#modalOKInfoBody').html("<div style='padding: 20px;'>You have not entered any score. Please consider scoring this question later.<br/><br/>Please click on 'Cancel' if you want to score this question now.</div>");
@@ -1274,10 +1350,13 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 		}
 	}
 
-	$scope.feedbackQuestion = function feedbackQuestion(pageInProgress){
-		$scope.trustedHtmlQText = $sce.trustAsHtml((pageInProgress+1)+'. '+$scope.config['LearningObject'][pageInProgress]['Title'].replace(varToReplace, filesRootPath));		
-	}
-	
+	$scope.feedbackQuestion = function feedbackQuestion(pageInProgress) {
+		/*if (!pageInProgressNoCache[pageInProgress]){
+        		pageInProgressNoCache[pageInProgress] = (Math.floor((Math.random() * 100000) + 1));
+        }*/
+        //$scope.trustedHtmlQText = $sce.trustAsHtml((pageInProgress + 1) + '. ' + $scope.updateflvTag($scope.updateAnchorTag($scope.config['LearningObject'][pageInProgress]['Title'].replace(varToReplace, filesRootPath))));            
+    }
+
 	$scope.feedbackMAT = function feedbackMAT(option){
 		$scope.correctOptMATFb = false
 		for (var i=0; i<option['MatchingOptions'].length; i++){
@@ -1298,5 +1377,125 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 			return false
 		}
 	}	
+	
+	var postReviewedContent = function(){
+    	$http.get(EOLRootPath + "api/eol/webcomplete").success(function (data, status, headers, config) {
+            window.location.href = EOLRootPath + "/Feedback/Index";
+        });
+    };
+    
+    $scope.fileUploadQuiz = function fileUploadQuiz(){
+    	var jqXHRData;
+	
+        $('#fu-my-simple-upload').fileupload({
+        	maxFileSize: 5000000,
+        	acceptFileTypes: /(\.|\/)(doc|docx|xls|xlsx|ppt|pptx|gif|jpe?g|png|bmp)$/i,
+            url: EOLRootPath + '/Home/PostFile?id=' + identifier + '&userId=' + user_id + '&NoOfAttempt=' + $scope.config['NoOfAttempt'],
+            dataType: 'json',
+            add: function (e, data) {
+                jqXHRData = data
+            },
+            done: function (event, data) {
+                if (data.result.UploadStatus) {                    
+                    $('#submitSuccessMessage').html(data.result.Message);
+                    $scope.config['LearningObject'][$scope.pageInProgress]['FileUploadPath'] = data.result.UploadedFilePath                
+                }
+            },
+            fail: function (event, data) {
+                if (data.files[0].error) {
+                    alert(data.files[0].error);
+                }
+            }
+        });
+	
+	    $("#hl-start-upload").on('click', function () {
+	        if (jqXHRData) {
+	            jqXHRData.submit();
+	        }
+	        return false;
+	    });
+	
+	    $("#fu-my-simple-upload").on('change', function () {
+	        $("#tbx-file-path").val(this.files[0].name);
+	    });
+    }
+    
+    $scope.reviewedWebContent = function reviewedWebContent(){
+    	if(!$scope.config['IsWebContentComplete']){
+        	$scope.config['IsWebContentComplete'] = true
+       	}else{
+       		$scope.config['IsWebContentComplete'] = false
+       	}
+        postReviewedContent();
+    };
+
+    $scope.reviewedWebLink = function reviewedWebLink(){
+    	if(!$scope.config['IsWebLinkComplete']){
+        	$scope.config['IsWebLinkComplete'] = true
+       	}else{
+       		$scope.config['IsWebLinkComplete'] = false
+       	}        
+        postReviewedContent();
+    };
+
+    //function to add leading and traling space with anchor tag and open in new window 
+    $scope.updateAnchorTag = function updateAnchorTag(textToReplace){
+    	replacedTextDiv = $('<div></div>')
+
+		replacedTextDiv.html(textToReplace).find('a').each(function(i){
+			$(this).before('&nbsp;');
+			$(this).after('&nbsp;');
+			$(this).attr('target','_blank');								
+		});
+
+		updatedText = replacedTextDiv.html().toString()
+		return updatedText
+    }
+    
+    $scope.updateflvTag = function updateflvTag(trustedHtmlQText){
+    	var updateToFlvDiv = $('<div></div>')
+
+		updateToFlvDiv.html(trustedHtmlQText).find('video').each(function(i){
+			if(($(this).find('source').attr('type') == 'video/flv') || ($(this).find('source').attr('type') == 'video/x-flv')){
+				if(!$(this).attr('id')){				
+					$(this).attr('id', 'video'+$scope.videoIdNo);
+					console.log($(this).attr('id'))
+					$(this).addClass('video-js vjs-default-skin vjs-big-play-centered');
+					$(this).attr('videodir','');
+					$scope.videoIdNo++;	
+				}
+			}
+					
+		});
+
+		return updateToFlvDiv.html().toString()
+    }
+   
+   $scope.showAllScores = function showAllScores(){
+
+		var i, scoreFeedbackText = "", allScoresLength = $scope.config['LearningObject']['AllAttemptScores'].length;
+		
+		if(!ifInfinteAttempts){
+			i = 1
+		}else if ($scope.config['NoOfAttempt']>2){
+			i = $scope.config['NoOfAttempt']-2
+		}else{
+			i = 1
+		}
+
+		for (var i = 1; i < $scope.config['NoOfAttempt']; i++) {
+	        for (var j = 0; j < allScoresLength; j++) {	        	
+	            if ($scope.config['LearningObject']['AllAttemptScores'][j]['key'] == i) {
+	                scoreFeedbackText = scoreFeedbackText + "<div>Attempt "+$scope.config['NoOfAttempt']+":"+$scope.config['LearningObject']['AllAttemptScores'][j]['value']+"</div>"
+	            }
+	        }
+		}
+		
+		$('#modalOKInfoTitle').html('Previous Score details below!');
+    	$('#modalOKInfoBody').html("<div style='padding: 20px;'>"+ scoreFeedbackText +"</div>");
+    	$('#modalOKInfoCancelButton').html("OK");
+    	$('#modalOKInfoProceedButton').hide();
+    	$('#modalOKInfo').modal('show');
+   }
 
 });

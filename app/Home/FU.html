@@ -1,17 +1,25 @@
-﻿
-<div class="questionHolder">
-    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" data-ng-bind-html="trustedHtmlQText"></div>
+﻿<div class="questionHolder">
+	<span data-ng-if="isStudent">{{fileUploadQuiz()}}</span>	
+    <div class="questionText" data-ng-if="config['LearningObject'][pageInProgress]['Title']" compilemeagain></div>
 
-    <form id="upload" method="POST" enctype="multipart/form-data" data-ng-submit="validateUpload($scope)">
-        <div>
+    <form id="upload" method="POST" enctype="multipart/form-data" action="http://localhost:55257/Home/PostFile">
+        <div data-ng-if="isStudent || isAdmin">
             <label for="fileselect">Files to upload:</label>
-            <input type="file" id="fileselect" fileread="uploadForm.ext" />
+            <input type="text" id="tbx-file-path" value="No file chosen..." readonly="readonly" />
+            <span class="btn btn-primary fileinput-button">
+                <span>Select file...</span>
+                <input type="file" id="fu-my-simple-upload" data-ng-disabled="disableInputs" />
+            </span>
+            <span id="submitbutton">
+                <span>&nbsp;</span>
+                <a class="btn btn-primary" href="#" id="hl-start-upload" data-ng-disabled="disableInputs">Upload File</a>                
+            </span><span id='submitSuccessMessage' style="color:green"></span>
         </div>
-
-        <div id="submitbutton">
-            <button type="submit">Upload Files</button>
-        </div>
+      	<div data-ng-if="isInstructor">
+      		<span data-ng-if="!config['LearningObject'][pageInProgress]['FileUploadPath']">No files uploaded</span>
+      		<a class="btn btn-primary" data-ng-if="config['LearningObject'][pageInProgress]['FileUploadPath']" data-ng-href="{{config['LearningObject'][pageInProgress]['FileUploadPath']}}" target="_blank" id="downloadFUFile">Download File</a>
+      	</div>
     </form>
-    
-    <div data-ng-if="showScoring"><br/><br/><label>Score this question:<input type="text" data-ng-model="config['LearningObject'][pageInProgress]['ManualScore']" class="scoreTextBox"/></label></div>
+	
+	<div data-ng-if="showScoring"><br/><br/><label>Score this question:<input type="text" data-ng-model="config['LearningObject'][pageInProgress]['ManualScore']" class="scoreTextBox"/></label></div>
 </div>

@@ -4,8 +4,6 @@
 		<title>Quiz Game Angular Trial</title>
 		<link rel="stylesheet" type="text/css" href="css/quiz.css" />
 		<link href="http://educate-online.com/tcm-assets/tcm.min.css" rel="stylesheet" type="text/css">
-		
-		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="js/vendors/videojs/video-js.css" />
 		<!--<link rel="stylesheet" type="text/css" href="js/vendors/file-upload/jquery.fileupload.css" />-->
 		<!--<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.min.css" />-->
@@ -48,12 +46,12 @@
 					                            <button type="button" class="btn btn-xs btn-default ng-hide" data-ng-click="prevPage()" data-ng-show="config['LearningObject'][pageInProgress-1]">Previous<br>Question</button>
 					                            <label class="position-lm">{{pageInProgress+1}} of {{config['LearningObject'].length}}</label>				                            				                            
 					                            <button type="button" class="btn btn-xs btn-primary ng-hide" data-ng-click="nextPage()" data-ng-show="config['LearningObject'][pageInProgress+1]">Next<br>Question</button>
-					                        </div>
+					                        </div>				                        
 					                        <div class="submit-lm"><button type="button" class="btn btn-xs btn-default ng-hide" data-ng-show="showSubmit && !isAdmin" data-ng-click="submit()">Submit and <br>End Quiz</button></div>
 										</div>
 									</div>
 									<div style="padding:20px">
-										<div data-ng-include src="getURL(config.ResourceType, config['LearningObject'][pageInProgress]['QuestionTypeID'],pageInProgress)"></div>
+										<div data-ng-include src="getURL(config.ResourceType, config['LearningObject'][pageInProgress]['QuestionTypeID'])"></div>
 									</div>
 								</div>							
 		                    </div>
@@ -68,29 +66,17 @@
 		                </div>				                
 		                <div data-ng-if="attemptScreen" class="container main-block">
 		                    <center>
-		                    	<div data-ng-if="isStudent">
-			                        <div data-ng-if="config['NoOfAttempt']<=config['MaxAttempt']">
-			                            <div class="welcomeText">
-			                                <span data-ng-if="config['NoOfAttempt']!=config['MaxAttempt']">This quiz allows you {{config['MaxAttempt']}} attempts.</span>
-			                                <span data-ng-if="config['NoOfAttempt']==config['MaxAttempt']">This is your last attempt for this quiz. You are allowed {{config['MaxAttempt']}} attempts.</span>
-			                            </div>
-			                            <div class="btn btn-primary" data-ng-click="quizLoad()">Start Quiz</div>
-			                        </div>
-			                        <div data-ng-if="config['NoOfAttempt']>config['MaxAttempt']">
-			                            <div class="alert alert-info">
-			                                This quiz is no longer available. The maximum number of attempts allowed has been made.
-			                            </div>
-			                        </div>
-								</div>
-		                        <div data-ng-if="isInstructor">
-		                            <ul>
-		                                <li>Time:{{config['TimeDuration']}}</li>
-		                                <li>Access Code:{{config['AccessCode']}}</li>
-		                                <li>Quiz Name:{{config['QuizName']}}</li>
-		                                <li>Allowed maximum Attempts:{{config['MaxAttempt']}}</li>
-		                                <li>Student's attempt to be graded:{{config['NoOfAttempt']}}</li>
-		                            </ul>
+		                        <div data-ng-if="config['NoOfAttempt']<=config['MaxAttempt']">
+		                            <div class="welcomeText">
+		                                <span data-ng-if="config['NoOfAttempt']!=config['MaxAttempt']">This quiz allows you {{config['MaxAttempt']}} attempts.</span>
+		                                <span data-ng-if="config['NoOfAttempt']==config['MaxAttempt']">This is your last attempt for this quiz. You are allowed {{config['MaxAttempt']}} attempts.</span>
+		                            </div>
 		                            <div class="btn btn-primary" data-ng-click="quizLoad()">Start Quiz</div>
+		                        </div>
+		                        <div data-ng-if="config['NoOfAttempt']>config['MaxAttempt']">
+		                            <div class="alert alert-info">
+		                                This quiz is no longer available. The maximum number of attempts allowed has been made.
+		                            </div>
 		                        </div>
 		                    </center>
 		                </div>
@@ -99,16 +85,16 @@
 		                <div class="container main-block">
 		                    <center>
 		                        <h2 class="feedbackTitle">
-		                            <strong>Score: <span data-ng-bind-template="{{config['TotalScore']?config['TotalScore']:0}}/{{config['MaxScore']}}"></span></strong><span class="btn btn-primary" data-ng-if='config["NoOfAttempt"]>1' data-ng-click='showAllScores()'>Score for previous attempts</span><br />
+		                            <strong>Score: <span data-ng-bind-template="{{config['TotalScore']?config['TotalScore']:0}}/{{config['MaxScore']}}"></span></strong><br />
 		                        </h2>
 		                        <div data-ng-if="isStudent">Score for instructor graded questions are not included yet</div>
 		                    </center>
 		                </div>
 		                <div class="feedbackQuestion panel panel-info" data-ng-repeat="question in config['LearningObject']" data-ng-init="pageInProgress=$index;disableInputs=true;currentQuest=config['LearningObject'][pageInProgress];">
-		                    <!--{{feedbackQuestion(pageInProgress)}}-->
+		                    <div class="panel-heading"> <h3 class="panel-title">{{feedbackQuestion(pageInProgress)}}</h3> </div> 
 		                    <div class='panel-body'>
 		                        <!--<div class="pull-right"><strong><span data-ng-bind-template="{{currentQuest['ManualScore']?currentQuest['ManualScore']:0}}/{{currentQuest['MaxScore']}}"></span> points</strong></div>-->
-		                        <div data-ng-include src="getURL(config.ResourceType, currentQuest['QuestionTypeID'],pageInProgress)"></div>
+		                        <div data-ng-include src="getURL(config.ResourceType, currentQuest['QuestionTypeID'])"></div>
 		                        <div data-ng-if="currentQuest['GeneralFeedback'] || currentQuest['CorrectAnswerFeedback'] || currentQuest['IncorrectAnswerFeedback']">
 		                            <div data-ng-if="ifAutoGradedQuest(currentQuest['QuestionTypeID'])" class="popover bottom quizFeedback">
 		                                <div class="arrow arrowLeft"></div>

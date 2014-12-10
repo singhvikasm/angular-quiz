@@ -1,4 +1,5 @@
 ﻿
 <div class="questionHolder">
-    <div data-ng-bind-html="trustedHtmlQText"></div>
+    <div data-ng-bind-html="trustedHtmlQText"></div>    
+	<button id="webContentComplete" data-ng-if="isStudent" data-ng-click="reviewedWebContent()" class="btn btn-primary"><span data-ng-if="!config['IsWebContentComplete']">Reviewed</span><span data-ng-if="config['IsWebContentComplete']">Not yet reviewed</span></button>
 </div>

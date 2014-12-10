@@ -1,0 +1,117 @@
+body {
+	margin: 0 0;
+}
+
+.container.quiz-container {
+	margin-top: 10px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.navigationButton.btn {
+	min-width: 80px;
+	margin:10px;
+	border-radius:6px;
+}
+
+.prevButton {
+	float: left;
+	border-radius:6px;
+}
+
+.nextButton {
+	float: right;
+	border-radius:6px;
+}
+
+.questionText,.authenticationText,.welcomeText {
+	margin-bottom: 30px;
+	font-size: 1.5em;
+}
+
+.questionHolder + .navigator, .questionHolder {
+	margin: auto;
+}
+
+.displayBlock {
+	display: block;
+    margin: 15px;
+}
+
+.scoreTextBox {
+	width: 50px;
+}
+
+.feedbackQuestion{
+	border: solid 1px black;
+	padding:15px;
+	margin:15px;		
+}
+
+.feedbackText{
+	padding:10px;
+}
+
+.wrongAnswer{
+	color: red;	
+}
+
+.correctAnswer{
+	color: #00EC00;	
+}
+
+.correctMATAnswer{
+	padding:5px;
+	border:1px solid green;
+	border-radius:6px;
+}
+
+.optionTitleMAT{
+	width:200px;
+	padding-bottom:10px;
+	display:inline-block;	
+}
+
+.feedbackTitle{
+	font-size: 1.5em;
+}
+
+.unAnsweredCorrect{
+	color: blue;	
+}
+
+#authenticationAlert{
+	width: 70%;
+	display: none;
+}
+
+.wrongAnsfimbFeedback{
+	border: 2px solid red;
+}
+
+.correctAnsfimbFeedback{
+	border: 2px solid green;
+}
+
+input.placeholder {
+    text-align: center;
+}
+
+#webContentComplete,#webLinkComplete{
+	margin-top:20px;
+}
+
+/*modifying bootstrap popover css as required*/
+
+.quizFeedback{
+	display: inline-block !important;
+	position: relative !important;
+	width: auto !important;
+	max-width: 90% !important;
+}
+
+.arrow.arrowLeft{
+	left:10% !important;
+}
+
+.MCQ3 { background-image: url('/media/images/choice2.jpg'); height: 100px; width: 170px }
