@@ -17,6 +17,14 @@ ngQuizApp.directive("replacefimb", function ($compile) {
     return {
         link: function (scope, element) {
             scope.text = (scope.pageInProgress + 1) + '. ' + scope.updateflvTag(scope.updateAnchorTag(scope.config['LearningObject'][scope.pageInProgress]['Title'].replace(scope.varToReplace, scope.filesRootPath)));
+            
+            var arrBlank = scope.text.match(/\[blank[1-9]\]/gi), countBlank = 0, id;
+            while (scope.text.match(/\[blank[1-9]\]/i)) {
+                id = arr[count].substring(1, arr[count].length - 1);
+                scope.text = scope.text.replace(/\[answer[1-9]\]/i, '<input type=text id="' + id + '" data-ng-disabled="' + scope.disableInputs + '" />');//merge disable inputs
+                count++;
+            }
+            
             var arr = scope.text.match(/\[answer[1-9]\]/gi), count = 0, id;
             while (scope.text.match(/\[answer[1-9]\]/i)) {
                 id = arr[count].substring(1, arr[count].length - 1);

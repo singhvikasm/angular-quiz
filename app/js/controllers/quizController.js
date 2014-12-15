@@ -107,7 +107,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 					"MaxScore": 10,
 					"MinScore": 0,
 					"QuestionTypeID": 1,
-					"Title": "Question <video controls><source src='http://www.mediacollege.com/video-gallery/testclips/20051210-w50s_56K.flv' type='video/flv'/></video>text 2",
+					"Title": "Question <a href='http://www.dummies.com/how-to/computers-software/programming/HTML.html'>hyperlink</a>text 2",
 					"responseEntered": "sdf",
 					"ManualScore": null
 				},
@@ -902,7 +902,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
             $scope.config = {};
             $scope.config = data;
             
-            $scope.getRole(1);
+            $scope.getRole(2);
 			
             if ($scope.config['ResourceType'] == 2) {
             	ifInfinteAttempts = $scope.config['MaxAttempt']==null || $scope.config['MaxAttempt'] < 0                
@@ -1445,7 +1445,7 @@ ngQuizApp.controller("ngQuizController", function ($scope, $http, $sce) {
 		replacedTextDiv.html(textToReplace).find('a').each(function(i){
 			$(this).before('&nbsp;');
 			$(this).after('&nbsp;');
-			$(this).attr('target','_blank');								
+			//$(this).attr('target','_blank');								
 		});
 
 		updatedText = replacedTextDiv.html().toString()

@@ -1,5 +1,138 @@
-﻿
-<div class="questionHolder">
-    <div data-ng-bind-html="trustedHtmlQText"></div>    
-	<button id="webContentComplete" data-ng-if="isStudent" data-ng-click="reviewedWebContent()" class="btn btn-primary"><span data-ng-if="!config['IsWebContentComplete']">Reviewed</span><span data-ng-if="config['IsWebContentComplete']">Not yet reviewed</span></button>
+﻿<div data-ng-if="!config['LearningObject']['IsAssignmentComplete']" class="container">
+    <div data-ng-if="config['IsAssignment']">
+        <div>
+            <p>
+                <strong> Title: </strong><span data-ng-if="config['LearningObject']['Title']" data-ng-bind-html="getTrustedHtml(config['LearningObject']['Title'])"></span><br />
+                <strong> Submission Types: </strong> <span data-ng-if="config['LearningObject']['SubmissionTypes']" data-ng-bind-html="getTrustedHtml(config['LearningObject']['SubmissionTypes'])"></span><br />
+                <strong> Grading Type: </strong><span data-ng-if="config['LearningObject']['GradingType']" data-ng-bind-html="getTrustedHtml(config['LearningObject']['GradingType'])"></span><br />
+                <strong> Course Name: </strong><span data-ng-if="config['LearningObject']['PackageName']" data-ng-bind-html="getTrustedHtml(config['LearningObject']['PackageName'])"></span><br />
+                <strong> Points: </strong><span data-ng-if="config['LearningObject']['pointspossible']" data-ng-bind-html="getTrustedHtml(config['LearningObject']['pointspossible'])"></span><br />
+            </p>
+        </div>
+        <br/>
+    </div>
+    <div class="questionHolder">
+        <div data-ng-bind-html="trustedHtmlQText"></div>
+        <button id="webContentComplete" data-ng-if="isStudent && !config['IsAssignment'] && !config['IsWebContentComplete']" data-ng-click="reviewedWebContent()" class="btn btn-primary"><span>Mark completed</span></button>
+		<span data-ng-if="isStudent && !config['IsAssignment'] && config['IsWebContentComplete']">This was marked completed on {{config['SubmittedDate']}}</span>
+    </div>
+    <div class="bs-example bs-example-tabs" role="tabpanel" data-ng-if="config['IsAssignment']">
+        
+        <ul id="assignmentsTab" class="nav nav-tabs" role="tablist">
+            <li role="presentation" data-ng-if="online_upload">
+                <a id="htmlTabButton" href="#onlineUpload"
+                   role="tab" data-toggle="tab">Online Upload</a>
+            </li>
+            <li role="presentation" data-ng-if="online_text_entry">
+                <a id="codeTabButton" href="#inputText" role="tab"
+                   data-toggle="tab">Text</a>
+            </li>
+            <li role="presentation" data-ng-if="online_url">
+                <a id="metaTabButton" href="#inputUrl" role="tab"
+                   data-toggle="tab">Share URL</a>
+            </li>
+        </ul>
+        <div class="tab-content" style="padding: 5px;">
+            <div class="tab-pane active" id="onlineUpload" data-ng-if="online_upload">
+                <div style="width: 100%;">
+                    <span data-ng-if="isStudent">{{fileUploadQuiz()}}</span>
+
+                    <div class="form-group">
+                        <div data-ng-if="(isStudent || isAdmin)">
+                            <label class="col-sm-5">Please upload your assignment:</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <form id="upload" method="POST" enctype="multipart/form-data">                             
+                                <div data-ng-if="(isStudent || isAdmin)">
+                                    <input type="text" id="tbx-file-path" value="No file chosen..." readonly="readonly" />
+                                    <span class="btn btn-primary fileinput-button">
+                                        <span>Select file...</span>
+                                        <input type="file" id="fu-my-simple-upload" class="btn btn-xs btn-primary" data-ng-disabled="disableInputs">
+                                    </span>
+                                    <span id="submitbutton">
+                                        <span>&nbsp;</span>
+                                        <button type="submit" class="btn btn-primary" id="hl-start-upload" data-ng-disabled="disableInputs">Upload</button>
+                                    </span>
+                                    <span id='submitSuccessMessage' style="color:green"></span>
+                                </div>
+                                <div data-ng-if="isInstructor">
+                                    <span data-ng-if="!config['LearningObject']['UserFileUploadPath']">No files uploaded</span>
+                                    <a class="btn btn-primary" data-ng-if="config['LearningObject']['UserFileUploadPath']" data-ng-href="{{config['LearningObject']['UserFileUploadPath']}}" target="_blank" id="downloadFUFile">Download File</a>
+                                </div>
+
+                                <br/>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="tab-pane" id="inputText" data-ng-if="online_text_entry">
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" data-ng-model="config['LearningObject']['UserAnswerText']" data-ng-disabled="disableInputs"></textarea>
+                </div>
+            </div>
+            <div class="tab-pane" id="inputUrl" data-ng-if="online_url">
+                <div class="form-group">
+                    <textarea class="form-control" rows="3" data-ng-if="isStudent" data-ng-model="config['LearningObject']['UserOnlineUrl']" data-ng-disabled="disableInputs"></textarea>
+                    <div data-ng-if="isInstructor">
+                        <span data-ng-if="!config['LearningObject']['UserOnlineUrl']">No URL entered</span>
+                        <a data-ng-if="config['LearningObject']['UserOnlineUrl']" data-ng-href="{{config['LearningObject']['UserOnlineUrl']}}" target="_blank">{{config['LearningObject']['UserOnlineUrl']}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div data-ng-if="isInstructor && config['LearningObject']['GradingType']!='not_graded'">
+            @*<div data-ng-if="config['LearningObject']['GradingType']=='pass_fail'">
+                    <form>
+                        <fieldset data-role="controlgroup">
+                            <div>
+                                <label> <input type="radio" data-ng-click="config['LearningObject']['IsUserPassFail']=true" name="userAnswer" data-ng-checked="config['LearningObject']['IsUserPassFail']==true" />&nbsp;&nbsp;Pass&nbsp;&nbsp;</label>
+                            </div>
+                            <div>
+                                <label> <input type="radio" data-ng-click="config['LearningObject']['IsUserPassFail']=false" name="userAnswer" data-ng-checked="config['LearningObject']['IsUserPassFail']==false" />&nbsp;&nbsp;Fail&nbsp;&nbsp;</label>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>*@
+
+
+            <div class="form-group" data-ng-if="config['LearningObject']['GradingType']=='pass_fail'">
+                <form>
+                    <div class="col-sm-offset-5 col-sm-7" data-role="controlgroup">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" data-ng-click="config['LearningObject']['IsUserPassFail']=true" name="userAnswer" data-ng-checked="config['LearningObject']['IsUserPassFail']==true" />Pass
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" data-ng-click="config['LearningObject']['IsUserPassFail']=false" name="userAnswer" data-ng-checked="config['LearningObject']['IsUserPassFail']==false" />Fail
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+            <div data-ng-if="config['LearningObject']['GradingType']=='points'">
+                <input type="text" data-ng-model="config['LearningObject']['UserPoint']" class="scoreTextBox" />
+            </div>
+            <div data-ng-if="config['LearningObject']['GradingType']=='percent'">
+                <input type="text" data-ng-model="config['LearningObject']['UserPercentage']" class="scoreTextBox" />%
+            </div>
+        </div>
+        <div>
+
+            <div class="col-sm-offset-5 col-sm-7">
+                <button type="button" class="btn  btn-primary ng-hide" data-ng-show="!isAdmin && !(isInstructor && config['LearningObject']['GradingType']=='not_graded')" data-ng-click="assignmentSubmit()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div data-ng-if="config['LearningObject']['IsAssignmentComplete']">
+    You have already submitted the assignment!
 </div>
